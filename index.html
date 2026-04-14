@@ -1134,7 +1134,7 @@
           <div class="couple-divider reveal"><span>&amp;</span></div>
           <div class="couple-card reveal">
             <div class="couple-photo">
-              <img src="img/aura.jpeg" alt="Aura" />
+              <img src="img/aura2.jpeg" alt="Aura" />
             </div>
             <div class="couple-name">Siti Auranita Widya Prasanti</div>
             <div class="couple-parents">
@@ -1226,7 +1226,10 @@
             <div class="lokasi-addr">
               Jl. Dalem Kaum No. 14<br />Regol, Bandung<br />Jawa Barat 40251
             </div>
-            <a class="btn-maps" href="https://maps.google.com" target="_blank"
+            <a
+              class="btn-maps"
+              href="https://www.google.com/maps/place/Masjid+Agung+Bandung/@-6.9216897,107.603565,17z/data=!3m1!4b1!4m6!3m5!1s0x2e68e625bd2312d5:0xfc2c9204afbcbb9f!8m2!3d-6.9216897!4d107.6061399!16s%2Fg%2F11b6f6mr9_?entry=ttu&g_ep=EgoyMDI2MDQwOC4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
               >↗ &nbsp;Buka di Google Maps</a
             >
           </div>
@@ -1235,17 +1238,20 @@
             <div class="lokasi-name">Grand Ballroom Sudirman</div>
             <div class="lokasi-time">Minggu, 19 April 2026 · 11.00 WIB</div>
             <div class="lokasi-addr">
-              Jl. Sudirman No. 1<br />Sumur Bandung, Bandung<br />Jawa Barat
-              40113
+              Jl. Jend. Sudirman No.620<br />Dungus Cariang, Kec. Andir,<br />Jawa
+              Barat 40183
             </div>
-            <a class="btn-maps" href="https://maps.google.com" target="_blank"
+            <a
+              class="btn-maps"
+              href="https://www.google.com/maps/place/Sudirman+Grand+Ballroom/@-6.917037,107.5771517,17z/data=!3m1!4b1!4m6!3m5!1s0x2e68e608cfa0c18d:0xbe7da28b948823b!8m2!3d-6.917037!4d107.5797266!16s%2Fg%2F11b6rs1sy8?entry=ttu&g_ep=EgoyMDI2MDQwOC4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
               >↗ &nbsp;Buka di Google Maps</a
             >
           </div>
         </div>
         <div class="map-embed reveal">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.8797547847366!2d107.60867!3d-6.91474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64c5e8866e5%3A0x37be7ac9d874ead0!2sJl.%20Jend.%20Sudirman%2C%20Bandung!5e0!3m2!1sid!2sid!4v1699999999999!5m2!1sid!2sid"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7787275614965!2d107.57715167507847!3d-6.917036993082552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e608cfa0c18d%3A0xbe7da28b948823b!2sSudirman%20Grand%20Ballroom!5e0!3m2!1sid!2sid!4v1776139790348!5m2!1sid!2sid"
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
@@ -1429,6 +1435,102 @@
         { threshold: 0.1 },
       );
       document.querySelectorAll(".reveal").forEach((el) => ro.observe(el));
+
+      /* === PARALLAX COVER IMAGE === */
+      window.addEventListener("scroll", () => {
+        const img = document.querySelector(".cover-photo img");
+        if (!img) return;
+        const offset = window.scrollY * 0.2;
+        img.style.transform = `scale(1.05) translateY(${offset}px)`;
+      });
+
+      /* === SMOOTH FADE AUDIO OUT SAAT TAB HIDDEN === */
+      document.addEventListener("visibilitychange", () => {
+        const audio = document.getElementById("bg-music");
+        if (!audio) return;
+
+        if (document.hidden) {
+          let vol = audio.volume;
+          const fadeOut = setInterval(() => {
+            vol = Math.max(vol - 0.05, 0);
+            audio.volume = vol;
+            if (vol <= 0) {
+              audio.pause();
+              clearInterval(fadeOut);
+            }
+          }, 50);
+        } else {
+          audio.play().catch(() => {});
+          let vol = 0;
+          audio.volume = 0;
+          const fadeIn = setInterval(() => {
+            vol = Math.min(vol + 0.05, 0.55);
+            audio.volume = vol;
+            if (vol >= 0.55) clearInterval(fadeIn);
+          }, 50);
+        }
+      });
+
+      /* === BUTTON RIPPLE EFFECT === */
+      document.querySelectorAll("button").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          const circle = document.createElement("span");
+          const diameter = Math.max(this.clientWidth, this.clientHeight);
+          circle.style.width = circle.style.height = `${diameter}px`;
+          circle.style.position = "absolute";
+          circle.style.borderRadius = "50%";
+          circle.style.background = "rgba(255,255,255,0.3)";
+          circle.style.left = `${e.offsetX - diameter / 2}px`;
+          circle.style.top = `${e.offsetY - diameter / 2}px`;
+          circle.style.pointerEvents = "none";
+          circle.style.animation = "ripple 0.6s linear";
+          this.appendChild(circle);
+
+          setTimeout(() => circle.remove(), 600);
+        });
+      });
+
+      /* ripple animation */
+      const style = document.createElement("style");
+      style.innerHTML = `
+@keyframes ripple {
+  from { transform: scale(0); opacity: 0.6; }
+  to { transform: scale(2); opacity: 0; }
+}`;
+      document.head.appendChild(style);
+
+      /* === SCROLL PROGRESS BAR === */
+      const progress = document.createElement("div");
+      progress.style.position = "fixed";
+      progress.style.top = "0";
+      progress.style.left = "0";
+      progress.style.height = "3px";
+      progress.style.background = "var(--gold)";
+      progress.style.zIndex = "9999";
+      progress.style.width = "0%";
+      document.body.appendChild(progress);
+
+      window.addEventListener("scroll", () => {
+        const scrollTop = window.scrollY;
+        const height =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const percent = (scrollTop / height) * 100;
+        progress.style.width = percent + "%";
+      });
+
+      /* === IMAGE HOVER ZOOM SMOOTH (gallery upgrade) === */
+      document.querySelectorAll(".gallery-item img").forEach((img) => {
+        img.addEventListener("mousemove", (e) => {
+          const rect = img.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          img.style.transform = `scale(1.08) translate(${(x - 0.5) * 10}px, ${(y - 0.5) * 10}px)`;
+        });
+
+        img.addEventListener("mouseleave", () => {
+          img.style.transform = "scale(1)";
+        });
+      });
     </script>
   </body>
 </html>
