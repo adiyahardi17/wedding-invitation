@@ -1054,7 +1054,7 @@
           <em>Aura</em>
         </h1>
         <div class="cover-date">
-          <span>Sabtu, 18 April 2026 · Bandung</span>
+          <span>Minggu, 19 April 2026 · Bandung</span>
         </div>
         <div class="cover-divider"></div>
         <button class="btn-open" onclick="openInvitation()">
@@ -1124,25 +1124,19 @@
         <div class="couple-grid">
           <div class="couple-card reveal">
             <div class="couple-photo">
-              <img
-                src="https://picsum.photos/seed/groom22/400/600"
-                alt="Arya"
-              />
+              <img src="img/agam.jpeg" alt="Agam" />
             </div>
-            <div class="couple-name">Agam Rizky</div>
+            <div class="couple-name">Agam Fajar Pratama</div>
             <div class="couple-parents">
-              Putra pertama dari<br />Bpk. Farhan &amp; Ibu Ratna
+              Putra pertama dari<br />Bpk. Punidi &amp; Ibu Purwati
             </div>
           </div>
           <div class="couple-divider reveal"><span>&amp;</span></div>
           <div class="couple-card reveal">
             <div class="couple-photo">
-              <img
-                src="https://picsum.photos/seed/bride33/400/600"
-                alt="Sekar"
-              />
+              <img src="img/aura.jpeg" alt="Aura" />
             </div>
-            <div class="couple-name">Aura Salsabila</div>
+            <div class="couple-name">Siti Auranita Widya Prasanti</div>
             <div class="couple-parents">
               Putri pertama dari<br />Bpk. Darmawan &amp; Ibu Sari
             </div>
@@ -1158,7 +1152,7 @@
             <div class="event-title">Ijab Kabul</div>
             <div class="event-detail">
               <span class="event-icon">◎</span
-              ><span>Sabtu, 18 April 2026<br />08.00 – 10.00 WIB</span>
+              ><span>Minggu, 19 April 2026<br />08.00 – 10.00 WIB</span>
             </div>
             <div class="event-detail">
               <span class="event-icon">◎</span
@@ -1170,7 +1164,7 @@
             <div class="event-title">Wedding Party</div>
             <div class="event-detail">
               <span class="event-icon">◎</span
-              ><span>Sabtu, 18 April 2026<br />11.00 – 14.00 WIB</span>
+              ><span>Minggu, 19 April 2026<br />11.00 – 14.00 WIB</span>
             </div>
             <div class="event-detail">
               <span class="event-icon">◎</span
@@ -1228,7 +1222,7 @@
           <div class="lokasi-card reveal">
             <div class="lokasi-type">Akad Nikah</div>
             <div class="lokasi-name">Masjid Agung Bandung</div>
-            <div class="lokasi-time">Sabtu, 18 April 2026 · 08.00 WIB</div>
+            <div class="lokasi-time">Minggu, 19 April 2026 · 08.00 WIB</div>
             <div class="lokasi-addr">
               Jl. Dalem Kaum No. 14<br />Regol, Bandung<br />Jawa Barat 40251
             </div>
@@ -1239,7 +1233,7 @@
           <div class="lokasi-card reveal">
             <div class="lokasi-type">Resepsi Pernikahan</div>
             <div class="lokasi-name">Grand Ballroom Sudirman</div>
-            <div class="lokasi-time">Sabtu, 18 April 2026 · 11.00 WIB</div>
+            <div class="lokasi-time">Minggu, 19 April 2026 · 11.00 WIB</div>
             <div class="lokasi-addr">
               Jl. Sudirman No. 1<br />Sumur Bandung, Bandung<br />Jawa Barat
               40113
@@ -1303,7 +1297,7 @@
           istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa
           tenteram kepadanya."<br /><br />— QS. Ar-Rum: 21
         </p>
-        <div class="footer-copy">Made with love · 2025</div>
+        <div class="footer-copy">Made with love · 2026</div>
       </footer>
     </div>
 
@@ -1353,6 +1347,17 @@
           btn.classList.add("paused");
         }
       }
+
+      document.addEventListener("visibilitychange", () => {
+        const audio = document.getElementById("bg-music");
+        if (!audio) return;
+
+        if (document.hidden) {
+          audio.pause();
+        } else {
+          audio.play().catch(() => {});
+        }
+      });
 
       /* NAVBAR SCROLL */
       window.addEventListener("scroll", () => {
