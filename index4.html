@@ -1,0 +1,2028 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A & A — 19.04.2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Tenor+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --ink: #0a0a0a;
+        --paper: #f7f5f1;
+        --silver: #9e9e9e;
+        --mist: #d4d4d4;
+        --fog: #ececec;
+        --white: #ffffff;
+        --char: #1e1e1e;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "EB Garamond", serif;
+        font-weight: 400;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* ─── CUSTOM CURSOR ─── */
+      #cursor {
+        position: fixed;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--ink);
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          opacity 0.3s;
+      }
+      #cursor-ring {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(10, 10, 10, 0.35);
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: all 0.12s ease;
+      }
+      body:hover #cursor {
+        opacity: 1;
+      }
+
+      /* ─── NOISE OVERLAY ─── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        opacity: 0.022;
+        pointer-events: none;
+      }
+
+      /* ─── COVER ─── */
+      #cover {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: var(--ink);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition:
+          opacity 1.2s cubic-bezier(0.77, 0, 0.18, 1),
+          transform 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+      }
+      #cover.hiding {
+        opacity: 0;
+        transform: scale(1.04);
+        pointer-events: none;
+      }
+      #cover.hidden {
+        display: none;
+      }
+
+      .cover-eyebrow {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 64px;
+        opacity: 0;
+        animation: fadeIn 1.2s ease 0.3s forwards;
+      }
+      .cover-headline {
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+        font-style: italic;
+        font-size: clamp(72px, 14vw, 160px);
+        line-height: 0.88;
+        color: var(--white);
+        opacity: 0;
+        animation: fadeIn 1.2s ease 0.6s forwards;
+        position: relative;
+      }
+      .cover-headline .amp {
+        display: block;
+        font-size: clamp(32px, 5vw, 56px);
+        font-style: normal;
+        color: var(--silver);
+        letter-spacing: 2px;
+        margin: 0.3em 0;
+      }
+      .cover-date-line {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 64px;
+        color: var(--silver);
+        opacity: 0;
+        animation: fadeIn 1.2s ease 0.9s forwards;
+      }
+      .cover-date-line::before,
+      .cover-date-line::after {
+        content: "";
+        display: block;
+        width: 48px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .cover-date-text {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 10px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+      }
+
+      .cover-guest-line {
+        font-family: "EB Garamond", serif;
+        font-style: italic;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 16px;
+        opacity: 0;
+        animation: fadeIn 1s ease 1s forwards;
+      }
+      .cover-guest-line span {
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .btn-enter {
+        margin-top: 64px;
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--white);
+        background: none;
+        border: none;
+        cursor: none;
+        opacity: 0;
+        animation: fadeIn 1s ease 1.2s forwards;
+        position: relative;
+        padding: 0 0 8px;
+      }
+      .btn-enter::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--white);
+        transition: width 0.5s ease;
+      }
+      .btn-enter:hover::after {
+        width: 100%;
+      }
+      .btn-enter-arrow {
+        width: 32px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.4);
+        position: relative;
+        transition: width 0.4s ease;
+      }
+      .btn-enter-arrow::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: -3px;
+        width: 6px;
+        height: 6px;
+        border-right: 1px solid rgba(255, 255, 255, 0.4);
+        border-top: 1px solid rgba(255, 255, 255, 0.4);
+        transform: rotate(45deg);
+      }
+      .btn-enter:hover .btn-enter-arrow {
+        width: 48px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── PROGRESS ─── */
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--ink));
+        z-index: 600;
+        width: 0;
+        transition: width 0.1s;
+      }
+
+      /* ─── NAVBAR ─── */
+      #nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        height: 68px;
+        padding: 0 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(247, 245, 241, 0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid transparent;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition:
+          transform 0.6s ease,
+          opacity 0.6s ease,
+          border-color 0.4s;
+      }
+      #nav.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      #nav.scrolled {
+        border-bottom-color: var(--mist);
+      }
+
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 28px;
+        color: var(--ink);
+        text-decoration: none;
+        letter-spacing: 1px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--silver);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--ink);
+      }
+      .nav-rsvp {
+        padding: 9px 22px;
+        border: 1px solid var(--ink);
+        color: var(--ink) !important;
+        letter-spacing: 3px;
+        transition:
+          background 0.3s,
+          color 0.3s !important;
+      }
+      .nav-rsvp:hover {
+        background: var(--ink);
+        color: var(--paper) !important;
+      }
+
+      .nav-burger {
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        background: none;
+        border: none;
+        cursor: none;
+        padding: 4px;
+      }
+      .nav-burger span {
+        display: block;
+        width: 20px;
+        height: 1px;
+        background: var(--ink);
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .nav-burger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .nav-burger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-burger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .nav-mobile {
+        display: none;
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: rgba(247, 245, 241, 0.97);
+        backdrop-filter: blur(12px);
+        padding: 32px 6vw 40px;
+        flex-direction: column;
+        gap: 28px;
+        border-bottom: 1px solid var(--mist);
+        z-index: 499;
+      }
+      .nav-mobile.open {
+        display: flex;
+      }
+      .nav-mobile a {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      /* ─── MAIN ─── */
+      #main {
+        opacity: 0;
+        transition: opacity 1s ease 0.1s;
+        padding-top: 68px;
+      }
+      #main.visible {
+        opacity: 1;
+      }
+
+      /* ─── SECTIONS ─── */
+      section {
+        padding: 120px 10vw;
+      }
+
+      .label {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--silver);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 56px;
+      }
+      .label::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--mist);
+      }
+
+      /* ─── GUEST STRIP ─── */
+      .guest-strip {
+        background: var(--ink);
+        padding: 24px 10vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .gs-left .gs-to {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--silver);
+      }
+      .gs-left .gs-name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 22px;
+        color: var(--white);
+        margin-top: 4px;
+      }
+      .gs-right {
+        text-align: right;
+      }
+      .gs-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 14px;
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--silver);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      /* ─── HERO / INTRO ─── */
+      .hero {
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        min-height: 100svh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-photo {
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) contrast(1.05) brightness(0.88);
+        transform: scale(1.05);
+        transition: transform 8s ease;
+      }
+      .hero-photo.in-view img {
+        transform: scale(1);
+      }
+      .hero-photo::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          to right,
+          transparent 60%,
+          var(--paper) 100%
+        );
+      }
+      .hero-text {
+        padding: 140px 8vw 140px 6vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .hero-bismillah {
+        font-family: "EB Garamond", serif;
+        font-style: italic;
+        font-size: 13px;
+        letter-spacing: 1px;
+        color: var(--silver);
+        margin-bottom: 8px;
+      }
+      .hero-sura {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(28px, 4vw, 52px);
+        font-weight: 400;
+        line-height: 1.25;
+        margin-bottom: 32px;
+      }
+      .hero-sura em {
+        font-style: italic;
+        color: var(--silver);
+      }
+      .hero-body {
+        font-size: 15px;
+        line-height: 2;
+        color: #555;
+        max-width: 420px;
+      }
+
+      /* ─── COUPLE ─── */
+      .couple {
+        background: var(--ink);
+        color: var(--white);
+      }
+      .couple .label {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .couple .label::before {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .couple-layout {
+        display: grid;
+        grid-template-columns: 1fr 60px 1fr;
+        gap: 0;
+        align-items: start;
+        margin-top: 48px;
+      }
+      .couple-person {
+        padding: 0 40px;
+      }
+      .couple-person:first-child {
+        padding-left: 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .couple-person:last-child {
+        padding-right: 0;
+      }
+      .person-photo {
+        width: 100%;
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        margin-bottom: 32px;
+        position: relative;
+      }
+      .person-photo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 50%,
+          rgba(10, 10, 10, 0.6)
+        );
+      }
+      .person-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) contrast(1.05);
+        transition: filter 0.6s;
+      }
+      .person-photo:hover img {
+        filter: grayscale(0%) contrast(1.05);
+      }
+      .person-number {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 80px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.06);
+        line-height: 1;
+        margin-bottom: -24px;
+        display: block;
+      }
+      .person-name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(22px, 2.8vw, 36px);
+        font-weight: 400;
+        margin-bottom: 12px;
+        line-height: 1.1;
+      }
+      .person-parents {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: var(--silver);
+        line-height: 2;
+      }
+      .couple-amp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 180px;
+      }
+      .couple-amp span {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 48px;
+        color: rgba(255, 255, 255, 0.15);
+      }
+
+      /* ─── EVENT ─── */
+      .event {
+        background: var(--fog);
+      }
+      .event-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        margin-top: 48px;
+      }
+      .event-card {
+        background: var(--white);
+        padding: 56px 48px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.4s;
+      }
+      .event-card:hover {
+        background: var(--ink);
+      }
+      .event-card:hover .ec-type,
+      .event-card:hover .ec-title,
+      .event-card:hover .ec-detail {
+        color: var(--white);
+      }
+      .event-card:hover .ec-detail-icon {
+        color: var(--mist);
+      }
+      .ec-bg-number {
+        position: absolute;
+        right: -10px;
+        bottom: -24px;
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 160px;
+        font-weight: 700;
+        color: rgba(10, 10, 10, 0.04);
+        line-height: 1;
+        pointer-events: none;
+        transition: color 0.4s;
+      }
+      .event-card:hover .ec-bg-number {
+        color: rgba(255, 255, 255, 0.04);
+      }
+      .ec-type {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 32px;
+        transition: color 0.4s;
+      }
+      .ec-title {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 40px;
+        font-weight: 400;
+        margin-bottom: 40px;
+        line-height: 1;
+        transition: color 0.4s;
+      }
+      .ec-detail {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: #555;
+        line-height: 1.8;
+        transition: color 0.4s;
+      }
+      .ec-detail-icon {
+        color: var(--silver);
+        font-size: 12px;
+        margin-top: 2px;
+        transition: color 0.4s;
+      }
+
+      /* ─── GALLERY ─── */
+      .gallery {
+        background: var(--paper);
+        padding-bottom: 0;
+      }
+      .gallery-intro {
+        max-width: 480px;
+        margin-bottom: 64px;
+      }
+      .gallery-intro h2 {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(32px, 4vw, 52px);
+        font-weight: 400;
+        line-height: 1.2;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: auto;
+        gap: 4px;
+      }
+      .gi {
+        overflow: hidden;
+      }
+      .gi img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        transition:
+          transform 0.7s ease,
+          filter 0.5s;
+        display: block;
+      }
+      .gi:hover img {
+        transform: scale(1.04);
+        filter: grayscale(30%);
+      }
+      .gi-1 {
+        grid-column: 1/8;
+        grid-row: 1/3;
+        height: 560px;
+      }
+      .gi-2 {
+        grid-column: 8/13;
+        height: 276px;
+      }
+      .gi-3 {
+        grid-column: 8/13;
+        height: 276px;
+      }
+
+      /* ─── COUNTDOWN ─── */
+      .countdown {
+        background: var(--ink);
+        color: var(--white);
+        text-align: center;
+      }
+      .countdown .label {
+        color: rgba(255, 255, 255, 0.3);
+        justify-content: center;
+      }
+      .countdown .label::before {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .countdown h2 {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 400;
+        margin-bottom: 80px;
+        line-height: 1.3;
+      }
+      .ct-grid {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+      }
+      .ct-unit {
+        padding: 0 56px;
+        text-align: center;
+      }
+      .ct-unit + .ct-unit {
+        border-left: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .ct-num {
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+        font-size: clamp(56px, 8vw, 96px);
+        line-height: 1;
+        color: var(--white);
+        display: block;
+      }
+      .ct-lbl {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-top: 12px;
+        display: block;
+      }
+
+      /* ─── LOCATION ─── */
+      .location {
+        background: var(--paper);
+      }
+      .loc-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        margin-top: 48px;
+      }
+      .loc-card {
+        background: var(--white);
+        padding: 48px 40px;
+        border-bottom: 3px solid transparent;
+        transition: border-color 0.3s;
+      }
+      .loc-card:hover {
+        border-bottom-color: var(--ink);
+      }
+      .lc-type {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 24px;
+      }
+      .lc-name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 30px;
+        font-weight: 400;
+        margin-bottom: 16px;
+        line-height: 1.1;
+      }
+      .lc-time {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--silver);
+        margin-bottom: 16px;
+      }
+      .lc-addr {
+        font-size: 14px;
+        line-height: 2;
+        color: #666;
+        margin-bottom: 32px;
+      }
+      .btn-map {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid var(--mist);
+        padding-bottom: 6px;
+        transition:
+          border-color 0.3s,
+          gap 0.3s;
+      }
+      .btn-map:hover {
+        border-color: var(--ink);
+        gap: 16px;
+      }
+      .map-box {
+        margin-top: 4px;
+        overflow: hidden;
+      }
+      .map-box iframe {
+        width: 100%;
+        height: 400px;
+        filter: grayscale(100%);
+        border: none;
+        display: block;
+      }
+
+      /* ─── GIFT ─── */
+      .gift {
+        background: var(--fog);
+      }
+      .gift-note {
+        font-size: 15px;
+        line-height: 2;
+        color: #666;
+        max-width: 520px;
+        margin-bottom: 64px;
+      }
+      .gift-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+      }
+      .gift-bank {
+        background: var(--white);
+        padding: 48px 40px;
+      }
+      .gb-bank-lbl {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 20px;
+      }
+      .gb-bank-name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 32px;
+        margin-bottom: 6px;
+      }
+      .gb-acct-name {
+        font-size: 13px;
+        color: var(--silver);
+        margin-bottom: 20px;
+      }
+      .gb-num-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--fog);
+        padding: 14px 18px;
+        margin-bottom: 24px;
+      }
+      .gb-num {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 15px;
+        letter-spacing: 3px;
+      }
+      .btn-copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: none;
+        border: 1px solid var(--mist);
+        color: var(--ink);
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 7px 14px;
+        cursor: none;
+        transition:
+          background 0.3s,
+          color 0.3s,
+          border-color 0.3s;
+      }
+      .btn-copy:hover {
+        background: var(--ink);
+        color: var(--white);
+        border-color: var(--ink);
+      }
+      .btn-copy.ok {
+        background: var(--ink);
+        color: var(--white);
+        border-color: var(--ink);
+      }
+      .gift-qris {
+        background: var(--ink);
+        padding: 48px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .qris-lbl {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 20px;
+      }
+      .qris-title {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 28px;
+        color: var(--white);
+        margin-bottom: 8px;
+      }
+      .qris-sub {
+        font-size: 13px;
+        color: var(--silver);
+        margin-bottom: 32px;
+      }
+      .qris-box {
+        width: 160px;
+        height: 160px;
+        background: var(--white);
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .qris-box svg {
+        width: 140px;
+        height: 140px;
+        opacity: 0.65;
+      }
+      .qris-note {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 2px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* ─── DIGITAL GIFT ─── */
+      .digital {
+        background: var(--paper);
+      }
+      .dg-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        margin-top: 48px;
+      }
+      .dg-card {
+        background: var(--white);
+        padding: 40px 32px;
+        text-decoration: none;
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.4s;
+      }
+      .dg-card:hover {
+        background: var(--ink);
+      }
+      .dg-card:hover .dg-icon,
+      .dg-card:hover .dg-name,
+      .dg-card:hover .dg-desc,
+      .dg-card:hover .dg-arr {
+        color: var(--white);
+      }
+      .dg-num {
+        position: absolute;
+        right: -8px;
+        bottom: -20px;
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 120px;
+        color: rgba(10, 10, 10, 0.04);
+        line-height: 1;
+        pointer-events: none;
+        transition: color 0.4s;
+      }
+      .dg-card:hover .dg-num {
+        color: rgba(255, 255, 255, 0.04);
+      }
+      .dg-icon {
+        font-size: 20px;
+        transition: color 0.4s;
+      }
+      .dg-name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 22px;
+        transition: color 0.4s;
+      }
+      .dg-desc {
+        font-size: 13px;
+        color: #777;
+        line-height: 1.7;
+        flex: 1;
+        transition: color 0.4s;
+      }
+      .dg-arr {
+        font-size: 18px;
+        color: var(--silver);
+        margin-top: 12px;
+        transition: color 0.4s;
+      }
+
+      /* ─── RSVP ─── */
+      .rsvp {
+        background: var(--ink);
+        color: var(--white);
+      }
+      .rsvp .label {
+        color: rgba(255, 255, 255, 0.3);
+        justify-content: center;
+      }
+      .rsvp .label::before {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .rsvp-inner {
+        max-width: 520px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .rsvp h2 {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(30px, 4vw, 52px);
+        font-weight: 400;
+        margin-bottom: 16px;
+      }
+      .rsvp-sub {
+        font-size: 14px;
+        color: var(--silver);
+        line-height: 1.9;
+        margin-bottom: 56px;
+      }
+      .rsvp-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        text-align: left;
+      }
+      .fg {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 28px;
+      }
+      .fg label {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--silver);
+      }
+      .fg input,
+      .fg select {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 12px 0;
+        font-family: "EB Garamond", serif;
+        font-size: 15px;
+        color: var(--white);
+        outline: none;
+        transition: border-color 0.3s;
+      }
+      .fg input::placeholder {
+        color: rgba(255, 255, 255, 0.25);
+      }
+      .fg input:focus,
+      .fg select:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+      .fg select option {
+        background: var(--char);
+        color: var(--white);
+      }
+      .btn-rsvp {
+        align-self: center;
+        margin-top: 8px;
+        padding: 16px 52px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: var(--white);
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        cursor: none;
+        transition:
+          background 0.4s,
+          border-color 0.4s,
+          color 0.4s;
+      }
+      .btn-rsvp:hover {
+        background: var(--white);
+        border-color: var(--white);
+        color: var(--ink);
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: var(--ink);
+        color: var(--white);
+        text-align: center;
+        padding: 100px 10vw 64px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .ft-names {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(36px, 6vw, 72px);
+        font-weight: 400;
+        margin-bottom: 8px;
+      }
+      .ft-date {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 48px;
+      }
+      .ft-rule {
+        width: 40px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.15);
+        margin: 0 auto 40px;
+      }
+      .ft-quote {
+        font-family: "EB Garamond", serif;
+        font-style: italic;
+        font-size: 16px;
+        line-height: 2;
+        color: rgba(255, 255, 255, 0.35);
+        max-width: 400px;
+        margin: 0 auto 48px;
+      }
+      .ft-copy {
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.15);
+      }
+
+      /* ─── MUSIC ─── */
+      #music-btn {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        z-index: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px 12px 14px;
+        background: var(--ink);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--white);
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 2px;
+        cursor: none;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition:
+          opacity 0.6s,
+          transform 0.6s,
+          background 0.3s;
+      }
+      #music-btn.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      #music-btn:hover {
+        background: var(--char);
+      }
+      .mi {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        animation: spin 5s linear infinite;
+      }
+      #music-btn.paused .mi {
+        animation-play-state: paused;
+        opacity: 0.4;
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ─── TOAST ─── */
+      #toast {
+        position: fixed;
+        bottom: 90px;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--ink);
+        color: var(--white);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 10px 24px;
+        font-family: "Tenor Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ─── REVEAL ─── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-photo {
+          height: 60vw;
+        }
+        .hero-photo::before {
+          background: linear-gradient(
+            to bottom,
+            transparent 60%,
+            var(--paper) 100%
+          );
+        }
+        .couple-layout {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .couple-amp {
+          padding-top: 0;
+          padding: 32px 0;
+        }
+        .couple-person {
+          padding: 0 !important;
+          border: none !important;
+        }
+        .event-grid,
+        .loc-cards,
+        .gift-grid,
+        .dg-grid {
+          grid-template-columns: 1fr;
+        }
+        .gi-1 {
+          grid-column: 1/-1;
+          grid-row: auto;
+          height: 300px;
+        }
+        .gi-2,
+        .gi-3 {
+          grid-column: 1/-1;
+          height: 220px;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .ct-unit {
+          padding: 0 20px;
+        }
+        section {
+          padding: 80px 6vw;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-burger {
+          display: flex;
+        }
+        .guest-strip {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="progress"></div>
+
+    <!-- ══ COVER ══ -->
+    <div id="cover">
+      <div class="cover-eyebrow">Wedding Invitation — Bandung, Jawa Barat</div>
+      <h1 class="cover-headline">
+        Agam
+        <span class="amp">&amp;</span>
+        Aura
+      </h1>
+      <div class="cover-guest-line" id="cov-guest"></div>
+      <div class="cover-date-line">
+        <span class="cover-date-text">Minggu · 19 April 2026</span>
+      </div>
+      <button class="btn-enter" onclick="openInvitation()">
+        <span>Buka Undangan</span>
+        <span class="btn-enter-arrow"></span>
+      </button>
+    </div>
+
+    <audio id="bgm" loop preload="auto" src="music/banda.mp3"></audio>
+    <button id="music-btn" onclick="toggleMusic()">
+      <span class="mi">♪</span>
+      <span>Sampai Jadi Debu</span>
+    </button>
+    <div id="toast"></div>
+
+    <!-- ══ NAV ══ -->
+    <nav id="nav">
+      <a class="nav-logo" href="#s-intro">A &amp; A</a>
+      <ul class="nav-links">
+        <li><a href="#s-intro" class="nl">Sambutan</a></li>
+        <li><a href="#s-couple" class="nl">Mempelai</a></li>
+        <li><a href="#s-acara" class="nl">Acara</a></li>
+        <li><a href="#s-gallery" class="nl">Galeri</a></li>
+        <li><a href="#s-lokasi" class="nl">Lokasi</a></li>
+        <li><a href="#s-gift" class="nl">Hadiah</a></li>
+        <li><a href="#s-rsvp" class="nl nav-rsvp">RSVP</a></li>
+      </ul>
+      <button class="nav-burger" id="burger" onclick="toggleMob()">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="nav-mobile" id="nmob">
+      <a href="#s-intro" onclick="closeMob()">Sambutan</a>
+      <a href="#s-couple" onclick="closeMob()">Mempelai</a>
+      <a href="#s-acara" onclick="closeMob()">Acara</a>
+      <a href="#s-gallery" onclick="closeMob()">Galeri</a>
+      <a href="#s-lokasi" onclick="closeMob()">Lokasi</a>
+      <a href="#s-gift" onclick="closeMob()">Hadiah</a>
+      <a href="#s-rsvp" onclick="closeMob()">RSVP</a>
+    </div>
+
+    <!-- ══ MAIN ══ -->
+    <div id="main">
+      <!-- Guest Strip -->
+      <div class="guest-strip" id="gs">
+        <div class="gs-left">
+          <div class="gs-to">Kepada Yth.</div>
+          <div class="gs-name" id="gs-name">Tamu Undangan</div>
+        </div>
+        <div class="gs-right">
+          <div class="gs-tag" id="gs-tag">Tamu Umum</div>
+        </div>
+      </div>
+
+      <!-- HERO / SAMBUTAN -->
+      <section class="hero" id="s-intro">
+        <div class="hero-photo" id="hero-ph">
+          <img src="https://picsum.photos/seed/mono-wedding/900/1200" alt="" />
+        </div>
+        <div class="hero-text">
+          <div class="label reveal">Bismillahirrahmanirrahim</div>
+          <h2 class="hero-sura reveal">
+            Dengan penuh rasa<br />syukur &amp;<br /><em>kebahagiaan</em>
+          </h2>
+          <p class="hero-body reveal">
+            Kami bermaksud mengundang Bapak / Ibu / Saudara/i untuk hadir dan
+            memberikan doa restu dalam acara pernikahan kami.<br /><br />
+            Kehadiran Anda adalah kebahagiaan yang tak ternilai bagi kami dan
+            seluruh keluarga.
+          </p>
+        </div>
+      </section>
+
+      <!-- MEMPELAI -->
+      <section class="couple" id="s-couple">
+        <div class="label reveal">The Couple</div>
+        <div class="couple-layout">
+          <div class="couple-person reveal">
+            <span class="person-number">01</span>
+            <div class="person-photo">
+              <img src="https://picsum.photos/seed/groom1/600/800" alt="Agam" />
+            </div>
+            <div class="person-name">Agam Fajar Pratama</div>
+            <div class="person-parents">
+              Putra pertama dari<br />
+              Bpk. Punidi &amp; Ibu Purwati
+            </div>
+          </div>
+          <div class="couple-amp reveal">
+            <span>&amp;</span>
+          </div>
+          <div class="couple-person reveal">
+            <span class="person-number">02</span>
+            <div class="person-photo">
+              <img src="https://picsum.photos/seed/bride1/600/800" alt="Aura" />
+            </div>
+            <div class="person-name">Siti Auranita Widya Prasanti</div>
+            <div class="person-parents">
+              Putri pertama dari<br />
+              Bpk. Darmawan &amp; Ibu Sari
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACARA -->
+      <section class="event" id="s-acara">
+        <div class="label reveal">Rangkaian Acara</div>
+        <div class="event-grid">
+          <div class="event-card reveal">
+            <span class="ec-bg-number">I</span>
+            <div class="ec-type">Akad Nikah</div>
+            <div class="ec-title">Ijab Kabul</div>
+            <div class="ec-detail">
+              <span class="ec-detail-icon">◎</span>
+              <span>Minggu, 19 April 2026<br />08.00 – 10.00 WIB</span>
+            </div>
+            <div class="ec-detail">
+              <span class="ec-detail-icon">◎</span>
+              <span>Masjid Agung Bandung<br />Jl. Dalem Kaum, Bandung</span>
+            </div>
+          </div>
+          <div class="event-card reveal">
+            <span class="ec-bg-number">II</span>
+            <div class="ec-type">Resepsi Pernikahan</div>
+            <div class="ec-title">Wedding Party</div>
+            <div class="ec-detail">
+              <span class="ec-detail-icon">◎</span>
+              <span>Minggu, 19 April 2026<br />11.00 – 14.00 WIB</span>
+            </div>
+            <div class="ec-detail">
+              <span class="ec-detail-icon">◎</span>
+              <span
+                >Grand Ballroom Sudirman<br />Jl. Sudirman No. 1, Bandung</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="gallery" id="s-gallery">
+        <div class="gallery-intro">
+          <div class="label reveal">Our Story</div>
+          <h2 class="reveal">Perjalanan<br /><em>menuju satu</em></h2>
+        </div>
+        <div class="gallery-grid reveal">
+          <div class="gi gi-1">
+            <img src="https://picsum.photos/seed/wed-main/900/1100" alt="" />
+          </div>
+          <div class="gi gi-2">
+            <img src="https://picsum.photos/seed/wed-2/700/600" alt="" />
+          </div>
+          <div class="gi gi-3">
+            <img src="https://picsum.photos/seed/wed-3/700/600" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <!-- COUNTDOWN -->
+      <section class="countdown" id="s-countdown">
+        <div class="label reveal">Menghitung Hari</div>
+        <h2 class="reveal">Hari Bahagia Kami</h2>
+        <div class="ct-grid reveal">
+          <div class="ct-unit">
+            <span class="ct-num" id="d">00</span
+            ><span class="ct-lbl">Hari</span>
+          </div>
+          <div class="ct-unit">
+            <span class="ct-num" id="h">00</span><span class="ct-lbl">Jam</span>
+          </div>
+          <div class="ct-unit">
+            <span class="ct-num" id="m">00</span
+            ><span class="ct-lbl">Menit</span>
+          </div>
+          <div class="ct-unit">
+            <span class="ct-num" id="s">00</span
+            ><span class="ct-lbl">Detik</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOKASI -->
+      <section class="location" id="s-lokasi">
+        <div class="label reveal">Tempat &amp; Waktu</div>
+        <div class="loc-cards">
+          <div class="loc-card reveal">
+            <div class="lc-type">Akad Nikah</div>
+            <div class="lc-name">Masjid Agung Bandung</div>
+            <div class="lc-time">Minggu, 19 April 2026 · 08.00 WIB</div>
+            <div class="lc-addr">
+              Jl. Dalem Kaum No. 14<br />Regol, Bandung, Jawa Barat 40251
+            </div>
+            <a
+              class="btn-map"
+              href="https://www.google.com/maps/place/Masjid+Agung+Bandung/@-6.9216897,107.603565,17z"
+              target="_blank"
+            >
+              Buka Google Maps →
+            </a>
+          </div>
+          <div class="loc-card reveal">
+            <div class="lc-type">Resepsi Pernikahan</div>
+            <div class="lc-name">Grand Ballroom Sudirman</div>
+            <div class="lc-time">Minggu, 19 April 2026 · 11.00 WIB</div>
+            <div class="lc-addr">
+              Jl. Jend. Sudirman No. 620<br />Dungus Cariang, Kec. Andir, Jawa
+              Barat 40183
+            </div>
+            <a
+              class="btn-map"
+              href="https://www.google.com/maps/place/Sudirman+Grand+Ballroom/@-6.917037,107.5771517,17z"
+              target="_blank"
+            >
+              Buka Google Maps →
+            </a>
+          </div>
+        </div>
+        <div class="map-box reveal">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7787275614965!2d107.57715167507847!3d-6.917036993082552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e608cfa0c18d%3A0xbe7da28b948823b!2sSudirman%20Grand%20Ballroom!5e0!3m2!1sid!2sid!4v1776139790348!5m2!1sid!2sid"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </section>
+
+      <!-- GIFT -->
+      <section class="gift" id="s-gift">
+        <div class="label reveal">Amplop &amp; Hadiah</div>
+        <p class="gift-note reveal">
+          Doa restu Anda adalah hadiah terbesar bagi kami. Namun jika berkenan
+          memberikan tanda kasih, berikut informasi yang dapat digunakan.
+        </p>
+        <div class="gift-grid reveal">
+          <div class="gift-bank">
+            <div class="gb-bank-lbl">Transfer Bank</div>
+            <div class="gb-bank-name">BCA</div>
+            <div class="gb-acct-name">a.n. Agam Fajar Pratama</div>
+            <div class="gb-num-row">
+              <span class="gb-num" id="r1">1234567890</span>
+              <button class="btn-copy" onclick="cp('r1', this)">Salin</button>
+            </div>
+            <div class="gb-bank-lbl" style="margin-top: 28px">
+              Transfer Bank
+            </div>
+            <div class="gb-bank-name">Mandiri</div>
+            <div class="gb-acct-name">a.n. Siti Auranita W.P.</div>
+            <div class="gb-num-row">
+              <span class="gb-num" id="r2">0987654321</span>
+              <button class="btn-copy" onclick="cp('r2', this)">Salin</button>
+            </div>
+          </div>
+          <div class="gift-qris">
+            <div class="qris-lbl">QRIS · Scan to Pay</div>
+            <div class="qris-title">Scan &amp; Transfer</div>
+            <div class="qris-sub">Semua e-wallet &amp; mobile banking</div>
+            <div class="qris-box">
+              <!-- QR placeholder SVG -->
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+              >
+                <rect
+                  x="5"
+                  y="5"
+                  width="35"
+                  height="35"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <rect x="12" y="12" width="21" height="21" />
+                <rect
+                  x="60"
+                  y="5"
+                  width="35"
+                  height="35"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <rect x="67" y="12" width="21" height="21" />
+                <rect
+                  x="5"
+                  y="60"
+                  width="35"
+                  height="35"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <rect x="12" y="67" width="21" height="21" />
+                <rect x="60" y="60" width="8" height="8" />
+                <rect x="72" y="60" width="8" height="8" />
+                <rect x="84" y="60" width="8" height="8" />
+                <rect x="60" y="72" width="8" height="8" />
+                <rect x="84" y="72" width="8" height="8" />
+                <rect x="60" y="84" width="8" height="8" />
+                <rect x="72" y="84" width="20" height="8" />
+                <rect x="45" y="5" width="8" height="8" />
+                <rect x="45" y="17" width="8" height="8" />
+                <rect x="45" y="29" width="8" height="8" />
+                <rect x="45" y="45" width="8" height="8" />
+                <rect x="5" y="45" width="8" height="8" />
+                <rect x="17" y="45" width="8" height="8" />
+                <rect x="29" y="45" width="8" height="8" />
+              </svg>
+            </div>
+            <div class="qris-note">
+              Ganti dengan gambar QRIS Anda<br /><span
+                style="color: rgba(255, 255, 255, 0.2)"
+                >img/qris.png</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DIGITAL GIFT -->
+      <section class="digital" id="s-digital">
+        <div class="label reveal">Digital Gift</div>
+        <div class="dg-grid">
+          <a
+            class="dg-card reveal"
+            href="https://tokopedia.com/wishlist"
+            target="_blank"
+          >
+            <span class="dg-num">01</span>
+            <span class="dg-icon">🛍</span>
+            <span class="dg-name">Tokopedia Wishlist</span>
+            <span class="dg-desc"
+              >Lihat dan beli dari daftar keinginan kami langsung di
+              Tokopedia.</span
+            >
+            <span class="dg-arr">↗</span>
+          </a>
+          <a class="dg-card reveal" href="https://shopee.co.id" target="_blank">
+            <span class="dg-num">02</span>
+            <span class="dg-icon">🏡</span>
+            <span class="dg-name">Shopee Wishlist</span>
+            <span class="dg-desc"
+              >Daftar hadiah rumah tangga pilihan kami tersedia di Shopee.</span
+            >
+            <span class="dg-arr">↗</span>
+          </a>
+          <a
+            class="dg-card reveal"
+            href="https://wa.me/6281234567890"
+            target="_blank"
+          >
+            <span class="dg-num">03</span>
+            <span class="dg-icon">💬</span>
+            <span class="dg-name">Hubungi Langsung</span>
+            <span class="dg-desc"
+              >Koordinasi hadiah spesial? Chat kami langsung via WhatsApp.</span
+            >
+            <span class="dg-arr">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- RSVP -->
+      <section class="rsvp" id="s-rsvp">
+        <div class="rsvp-inner reveal">
+          <div class="label">Konfirmasi Kehadiran</div>
+          <h2>RSVP</h2>
+          <p class="rsvp-sub">
+            Mohon konfirmasi kehadiran Anda paling lambat<br />7 hari sebelum
+            acara berlangsung.
+          </p>
+          <form class="rsvp-form" onsubmit="doRsvp(event)">
+            <div class="fg">
+              <label>Nama Lengkap</label>
+              <input
+                type="text"
+                id="rn"
+                placeholder="Masukkan nama Anda"
+                required
+              />
+            </div>
+            <div class="fg">
+              <label>Nomor HP / WhatsApp</label>
+              <input type="tel" placeholder="+62" />
+            </div>
+            <div class="fg">
+              <label>Kehadiran</label>
+              <select required>
+                <option value="" disabled selected>— Pilih —</option>
+                <option>Hadir</option>
+                <option>Tidak Dapat Hadir</option>
+                <option>Masih Belum Pasti</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Jumlah Tamu</label>
+              <input type="number" min="1" max="5" placeholder="1" />
+            </div>
+            <button type="submit" class="btn-rsvp">Kirim Konfirmasi</button>
+          </form>
+        </div>
+      </section>
+
+      <footer>
+        <div class="ft-names">Agam &amp; Aura</div>
+        <div class="ft-date">19 · 04 · 2026 · Bandung</div>
+        <div class="ft-rule"></div>
+        <p class="ft-quote">
+          "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu
+          istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa
+          tenteram kepadanya."<br /><br />— QS. Ar-Rum: 21
+        </p>
+        <div class="ft-copy">Made with love · 2026</div>
+      </footer>
+    </div>
+
+    <script>
+      /* PARAMS */
+      const p = new URLSearchParams(location.search);
+      const gName = p.get("to") || "";
+      const gType = (p.get("type") || "").toLowerCase();
+      const gSeats = parseInt(p.get("seats")) || 2;
+      const isVip = gType === "vip";
+
+      if (gName) {
+        document.getElementById("cov-guest").innerHTML =
+          `Kepada Yth. <span>${decodeURIComponent(gName)}</span>`;
+      }
+      document.body.style.overflow = "hidden";
+
+      /* CURSOR */
+      const cur = document.getElementById("cursor"),
+        ring = document.getElementById("cursor-ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cur.style.left = mx + "px";
+        cur.style.top = my + "px";
+      });
+      (function track() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(track);
+      })();
+      document.querySelectorAll("a,button,[onclick]").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          ring.style.width = "64px";
+          ring.style.height = "64px";
+          ring.style.borderColor = "rgba(10,10,10,.5)";
+        });
+        el.addEventListener("mouseleave", () => {
+          ring.style.width = "40px";
+          ring.style.height = "40px";
+          ring.style.borderColor = "rgba(10,10,10,.35)";
+        });
+      });
+
+      /* OPEN */
+      function openInvitation() {
+        const cover = document.getElementById("cover");
+        const main = document.getElementById("main");
+        const nav = document.getElementById("nav");
+        cover.classList.add("hiding");
+        setTimeout(() => {
+          cover.classList.add("hidden");
+          document.body.style.overflow = "";
+          main.classList.add("visible");
+          nav.classList.add("visible");
+          window.scrollTo({ top: 0 });
+          if (gName) {
+            document.getElementById("gs-name").textContent =
+              decodeURIComponent(gName);
+            document.getElementById("rn").value = decodeURIComponent(gName);
+          }
+          if (isVip) {
+            const tag = document.getElementById("gs-tag");
+            tag.textContent = "⭑ Tamu VIP";
+            tag.style.color = "#c8b98a";
+            tag.style.borderColor = "rgba(200,185,138,.4)";
+          }
+        }, 1200);
+        const audio = document.getElementById("bgm");
+        audio.volume = 0;
+        audio.play().catch(() => {});
+        let v = 0;
+        const fi = setInterval(() => {
+          v = Math.min(v + 0.02, 0.5);
+          audio.volume = v;
+          if (v >= 0.5) clearInterval(fi);
+        }, 80);
+        setTimeout(
+          () => document.getElementById("music-btn").classList.add("show"),
+          1400,
+        );
+      }
+
+      /* MUSIC */
+      function toggleMusic() {
+        const a = document.getElementById("bgm"),
+          b = document.getElementById("music-btn");
+        a.paused
+          ? (a.play(), b.classList.remove("paused"))
+          : (a.pause(), b.classList.add("paused"));
+      }
+
+      /* COPY */
+      function cp(id, btn) {
+        const t = document.getElementById(id).textContent.trim();
+        navigator.clipboard.writeText(t).then(() => {
+          btn.textContent = "✓ Tersalin";
+          btn.classList.add("ok");
+          showToast("Nomor disalin!");
+          setTimeout(() => {
+            btn.textContent = "Salin";
+            btn.classList.remove("ok");
+          }, 2500);
+        });
+      }
+      function showToast(m) {
+        const t = document.getElementById("toast");
+        t.textContent = m;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2500);
+      }
+
+      /* NAV */
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("nav");
+        nav.classList.toggle("scrolled", scrollY > 10);
+        let cur = "";
+        document.querySelectorAll("section[id]").forEach((s) => {
+          if (scrollY >= s.offsetTop - 120) cur = s.id;
+        });
+        document
+          .querySelectorAll(".nl")
+          .forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === "#" + cur),
+          );
+        const h = document.documentElement.scrollHeight - innerHeight;
+        document.getElementById("progress").style.width =
+          (scrollY / h) * 100 + "%";
+      });
+      function toggleMob() {
+        document.getElementById("nmob").classList.toggle("open");
+        document.getElementById("burger").classList.toggle("open");
+      }
+      function closeMob() {
+        document.getElementById("nmob").classList.remove("open");
+        document.getElementById("burger").classList.remove("open");
+      }
+
+      /* COUNTDOWN */
+      const wed = new Date("2026-04-19T08:00:00");
+      function tick() {
+        const df = wed - new Date(),
+          pad = (n) => String(Math.max(0, n)).padStart(2, "0");
+        document.getElementById("d").textContent = pad(
+          Math.floor(df / 86400000),
+        );
+        document.getElementById("h").textContent = pad(
+          Math.floor((df % 86400000) / 3600000),
+        );
+        document.getElementById("m").textContent = pad(
+          Math.floor((df % 3600000) / 60000),
+        );
+        document.getElementById("s").textContent = pad(
+          Math.floor((df % 60000) / 1000),
+        );
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      /* RSVP */
+      function doRsvp(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector(".btn-rsvp");
+        btn.textContent = "Terima Kasih ✓";
+        btn.style.background = "#fff";
+        btn.style.color = "#0a0a0a";
+        btn.disabled = true;
+        showToast("RSVP berhasil dikirim!");
+      }
+
+      /* REVEAL */
+      const ro = new IntersectionObserver(
+        (ents) => {
+          ents.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              ro.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => ro.observe(el));
+
+      /* HERO PHOTO KEN BURNS */
+      const ph = document.getElementById("hero-ph");
+      new IntersectionObserver(
+        (ents) => {
+          ents.forEach((e) => {
+            if (e.isIntersecting) ph.classList.add("in-view");
+          });
+        },
+        { threshold: 0.1 },
+      ).observe(ph);
+
+      /* VISIBILITY */
+      document.addEventListener("visibilitychange", () => {
+        const a = document.getElementById("bgm");
+        if (!a) return;
+        if (document.hidden) {
+          let v = a.volume;
+          const fo = setInterval(() => {
+            v = Math.max(v - 0.05, 0);
+            a.volume = v;
+            if (!v) {
+              a.pause();
+              clearInterval(fo);
+            }
+          }, 50);
+        } else {
+          a.play().catch(() => {});
+          let v = 0;
+          a.volume = 0;
+          const fi = setInterval(() => {
+            v = Math.min(v + 0.05, 0.5);
+            a.volume = v;
+            if (v >= 0.5) clearInterval(fi);
+          }, 50);
+        }
+      });
+    </script>
+  </body>
+</html>

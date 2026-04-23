@@ -1,0 +1,2499 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agam & Aura — 19 April 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --black: #0a0a0a;
+        --off: #111111;
+        --charcoal: #222222;
+        --mid: #666666;
+        --silver: #aaaaaa;
+        --light: #e8e8e8;
+        --paper: #f5f3ef;
+        --white: #ffffff;
+        --red: #c8392b; /* single accent */
+        --red-dim: #8a271e;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--black);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* ── CUSTOM CURSOR ── */
+      #cursor {
+        width: 10px;
+        height: 10px;
+        background: var(--red);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.1s,
+          width 0.3s,
+          height 0.3s;
+        mix-blend-mode: difference;
+      }
+      #cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--red);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99998;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.15s ease,
+          width 0.3s,
+          height 0.3s,
+          opacity 0.3s;
+        opacity: 0.5;
+      }
+      body:hover #cursor {
+        opacity: 1;
+      }
+
+      /* ── PROGRESS ── */
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: var(--red);
+        z-index: 9999;
+        width: 0%;
+      }
+
+      /* ─────────────────────────────────
+       COVER — editorial magazine
+    ───────────────────────────────── */
+      #cover {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: var(--black);
+        display: grid;
+        grid-template-rows: 1fr;
+        overflow: hidden;
+        transition: transform 1.1s cubic-bezier(0.86, 0, 0.07, 1);
+      }
+      #cover.hiding {
+        transform: translateY(-100%);
+      }
+      #cover.hidden {
+        display: none;
+      }
+
+      .cover-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Left: massive typography */
+      .cover-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 56px 80px 56px;
+        position: relative;
+        border-right: 1px solid #222;
+        overflow: hidden;
+      }
+
+      .cover-issue {
+        position: absolute;
+        top: 32px;
+        left: 56px;
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      .cover-big-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(56px, 10vw, 140px);
+        line-height: 0.92;
+        color: var(--white);
+        user-select: none;
+        opacity: 0;
+        animation: slideUp 0.9s ease 0.5s forwards;
+      }
+      .cover-big-name .accent {
+        color: var(--red);
+      }
+
+      .cover-rule {
+        width: 0;
+        height: 1px;
+        background: var(--red);
+        margin: 20px 0;
+        animation: expandW 0.8s ease 1s forwards;
+      }
+      @keyframes expandW {
+        to {
+          width: 80px;
+        }
+      }
+
+      .cover-meta {
+        opacity: 0;
+        animation: slideUp 0.8s ease 1.1s forwards;
+      }
+      .cover-meta-date {
+        font-size: 11px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 6px;
+      }
+      .cover-meta-city {
+        font-size: 11px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(32px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Right: photo */
+      .cover-right {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+      }
+      .cover-right img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        filter: grayscale(100%) contrast(1.05);
+        animation: zoomIn 12s ease forwards;
+      }
+      @keyframes zoomIn {
+        from {
+          transform: scale(1.12);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+
+      .cover-right-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(10, 10, 10, 0.35) 0%,
+          transparent 60%
+        );
+      }
+
+      /* Guest name on cover */
+      #cover-guest {
+        position: absolute;
+        top: 48px;
+        left: 0;
+        right: 0;
+        padding: 0 56px;
+        font-size: 11px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--silver);
+        opacity: 0;
+        animation: slideUp 0.8s ease 0.3s forwards;
+      }
+
+      /* Open button — inside cover-left, below meta */
+      .cover-btn-wrap {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        opacity: 0;
+        animation: slideUp 0.8s ease 1.3s forwards;
+      }
+      .btn-open {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0;
+        background: none;
+        border: none;
+        color: var(--white);
+        cursor: none;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 10px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        transition: color 0.3s;
+      }
+      .btn-open:hover {
+        color: var(--red);
+      }
+      .btn-open-circle {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+        flex-shrink: 0;
+      }
+      .btn-open:hover .btn-open-circle {
+        background: var(--red);
+        border-color: var(--red);
+      }
+
+      /* ─────────────────────────────────
+       NAVBAR — minimal top bar
+    ───────────────────────────────── */
+      #navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        height: 60px;
+        padding: 0 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(245, 243, 239, 0.96);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid transparent;
+        transition:
+          border-color 0.3s,
+          transform 0.5s,
+          opacity 0.5s;
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      #navbar.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      #navbar.scrolled {
+        border-bottom-color: var(--light);
+      }
+
+      .nav-logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 20px;
+        letter-spacing: 3px;
+        color: var(--black);
+        text-decoration: none;
+      }
+      .nav-logo span {
+        color: var(--red);
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      .nav-links a {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--mid);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--red);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--black);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .nav-rsvp {
+        padding: 8px 20px !important;
+        background: var(--black) !important;
+        color: var(--white) !important;
+      }
+      .nav-rsvp::after {
+        display: none !important;
+      }
+      .nav-rsvp:hover {
+        background: var(--red) !important;
+        color: var(--white) !important;
+      }
+
+      .nav-vip {
+        display: none;
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--red);
+        border: 1px solid var(--red);
+        padding: 3px 8px;
+      }
+      .nav-vip.show {
+        display: inline-block;
+      }
+
+      .nav-burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: none;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .nav-burger span {
+        display: block;
+        width: 22px;
+        height: 1px;
+        background: var(--black);
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .nav-burger.open span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+      .nav-burger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-burger.open span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
+      .nav-mobile {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(245, 243, 239, 0.99);
+        padding: 32px 6vw 40px;
+        flex-direction: column;
+        gap: 24px;
+        border-bottom: 1px solid var(--light);
+        z-index: 499;
+      }
+      .nav-mobile.open {
+        display: flex;
+      }
+      .nav-mobile a {
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--black);
+        text-decoration: none;
+      }
+
+      /* ─────────────────────────────────
+       MAIN
+    ───────────────────────────────── */
+      #main-content {
+        opacity: 0;
+        transition: opacity 0.8s ease 0.2s;
+        padding-top: 60px;
+      }
+      #main-content.visible {
+        opacity: 1;
+      }
+
+      /* ── GUEST BANNER ── */
+      .guest-banner {
+        background: var(--black);
+        padding: 20px 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .gb-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .gb-label {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+      .gb-sep {
+        width: 1px;
+        height: 24px;
+        background: #333;
+      }
+      .gb-name {
+        font-family: "Libre Baskerville", serif;
+        font-style: italic;
+        font-size: 16px;
+        color: var(--white);
+      }
+      .gb-tag {
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--red);
+        border: 1px solid rgba(200, 57, 43, 0.4);
+        padding: 3px 8px;
+      }
+      .gb-seats {
+        display: none;
+        text-align: right;
+      }
+      .gb-seats.show {
+        display: block;
+      }
+      .gb-seats-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 40px;
+        color: var(--red);
+        line-height: 1;
+      }
+      .gb-seats-lbl {
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      /* ── VIP SECTION ── */
+      .vip-section {
+        display: none;
+        background: var(--charcoal);
+        color: var(--white);
+        padding: 80px 6vw;
+      }
+      .vip-section.show {
+        display: block;
+      }
+      .vip-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: #333;
+        margin-top: 48px;
+      }
+      .vip-cell {
+        background: var(--charcoal);
+        padding: 40px 32px;
+      }
+      .vip-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 56px;
+        color: #333;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+      .vip-title {
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 10px;
+      }
+      .vip-desc {
+        font-size: 13px;
+        color: var(--silver);
+        line-height: 1.8;
+      }
+
+      /* ─────────────────────────────────
+       INTRO — oversized text, photo offset
+    ───────────────────────────────── */
+      .intro {
+        padding: 120px 6vw 0;
+        background: var(--paper);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .intro-number {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(180px, 28vw, 380px);
+        color: var(--light);
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+
+      .intro-top {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 64px;
+        align-items: start;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 100px;
+      }
+
+      .intro-tag-vert {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--mid);
+        transform: rotate(180deg);
+        padding-top: 8px;
+      }
+
+      .intro-text-block {
+        max-width: 600px;
+      }
+      .intro-eyebrow {
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 24px;
+      }
+      .intro-headline {
+        font-family: "Libre Baskerville", serif;
+        font-size: clamp(28px, 4vw, 52px);
+        font-weight: 400;
+        line-height: 1.25;
+        color: var(--black);
+        margin-bottom: 32px;
+      }
+      .intro-headline em {
+        font-style: italic;
+      }
+      .intro-body {
+        font-size: 15px;
+        line-height: 2;
+        color: var(--mid);
+        max-width: 480px;
+      }
+
+      /* Photo strip below intro text */
+      .intro-photo-strip {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 4px;
+        margin-top: 80px;
+      }
+      .intro-photo-strip .ps-item {
+        overflow: hidden;
+      }
+      .intro-photo-strip .ps-item:nth-child(1) {
+        height: 480px;
+      }
+      .intro-photo-strip .ps-item:nth-child(2) {
+        height: 480px;
+      }
+      .intro-photo-strip .ps-item:nth-child(3) {
+        height: 480px;
+      }
+      .intro-photo-strip .ps-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(20%);
+        transition:
+          filter 0.4s,
+          transform 0.6s ease;
+      }
+      .intro-photo-strip .ps-item:hover img {
+        filter: grayscale(0%);
+        transform: scale(1.03);
+      }
+
+      /* ─────────────────────────────────
+       COUPLE — split screen stacked
+    ───────────────────────────────── */
+      .couple {
+        background: var(--white);
+      }
+
+      .couple-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 80vh;
+      }
+      .couple-row:nth-child(even) {
+        direction: rtl;
+      }
+      .couple-row:nth-child(even) > * {
+        direction: ltr;
+      }
+
+      .couple-photo-pane {
+        position: relative;
+        overflow: hidden;
+        background: var(--black);
+      }
+      .couple-photo-pane img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(30%);
+        transition: filter 0.5s;
+      }
+      .couple-photo-pane:hover img {
+        filter: grayscale(0%);
+      }
+
+      .couple-photo-pane .cp-number {
+        position: absolute;
+        bottom: 32px;
+        left: 32px;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(60px, 8vw, 100px);
+        color: rgba(255, 255, 255, 0.07);
+        line-height: 1;
+        user-select: none;
+      }
+
+      .couple-info-pane {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 64px;
+        position: relative;
+        background: var(--white);
+      }
+      .couple-info-pane::before {
+        content: "";
+        position: absolute;
+        top: 64px;
+        bottom: 64px;
+        left: 0;
+        width: 3px;
+        background: var(--red);
+      }
+      .couple-row:nth-child(even) .couple-info-pane::before {
+        left: auto;
+        right: 0;
+      }
+
+      .couple-role {
+        font-size: 8px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 16px;
+      }
+      .couple-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(40px, 5vw, 64px);
+        line-height: 0.95;
+        color: var(--black);
+        margin-bottom: 24px;
+        letter-spacing: 2px;
+      }
+      .couple-parents {
+        font-size: 13px;
+        color: var(--mid);
+        line-height: 2;
+      }
+      .couple-sep {
+        width: 40px;
+        height: 1px;
+        background: var(--light);
+        margin: 24px 0;
+      }
+
+      /* ─────────────────────────────────
+       EVENT — newspaper-style columns
+    ───────────────────────────────── */
+      .event {
+        background: var(--black);
+        color: var(--white);
+        padding: 120px 6vw;
+      }
+
+      .event-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 1px solid #222;
+        padding-bottom: 32px;
+        margin-bottom: 64px;
+      }
+      .event-headline {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 8vw, 100px);
+        line-height: 0.9;
+        letter-spacing: 2px;
+      }
+      .event-headline span {
+        color: var(--red);
+      }
+      .event-dateline {
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--mid);
+        text-align: right;
+        line-height: 1.8;
+      }
+
+      .event-columns {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        gap: 0;
+      }
+      .event-col {
+        padding: 0 48px;
+      }
+      .event-col:first-child {
+        padding-left: 0;
+      }
+      .event-col:last-child {
+        padding-right: 0;
+      }
+      .event-divider-v {
+        background: #222;
+      }
+
+      .event-col-tag {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 20px;
+      }
+      .event-col-title {
+        font-family: "Libre Baskerville", serif;
+        font-size: clamp(22px, 2.5vw, 32px);
+        font-style: italic;
+        margin-bottom: 32px;
+        line-height: 1.2;
+      }
+      .event-col-item {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: var(--silver);
+        line-height: 1.7;
+      }
+      .event-col-icon {
+        color: var(--red);
+        flex-shrink: 0;
+        font-size: 10px;
+        margin-top: 4px;
+      }
+
+      /* ─────────────────────────────────
+       GALLERY — full bleed filmstrip
+    ───────────────────────────────── */
+      .gallery {
+        background: var(--paper);
+        padding: 120px 0 0;
+      }
+      .gallery-header {
+        padding: 0 6vw 56px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .gallery-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 7vw, 90px);
+        line-height: 0.9;
+        letter-spacing: 2px;
+      }
+      .gallery-title span {
+        color: var(--red);
+      }
+      .gallery-count {
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      .gallery-strip {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr;
+        height: 500px;
+        gap: 4px;
+      }
+      .gs-item {
+        overflow: hidden;
+        position: relative;
+      }
+      .gs-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(40%);
+        transition:
+          transform 0.7s ease,
+          filter 0.4s;
+      }
+      .gs-item:hover img {
+        transform: scale(1.05);
+        filter: grayscale(0%);
+      }
+
+      .gs-item .gs-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px 20px 24px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .gs-item:hover .gs-caption {
+        opacity: 1;
+      }
+
+      /* ─────────────────────────────────
+       COUNTDOWN — raw bold numbers
+    ───────────────────────────────── */
+      .countdown {
+        background: var(--red);
+        padding: 80px 6vw;
+        overflow: hidden;
+        position: relative;
+      }
+      .countdown::before {
+        content: "19.04.26";
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(80px, 15vw, 180px);
+        color: rgba(255, 255, 255, 0.08);
+        white-space: nowrap;
+        pointer-events: none;
+      }
+
+      .countdown-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 80px;
+      }
+      .countdown-label-block {
+        flex-shrink: 0;
+      }
+      .countdown-label-block p {
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 8px;
+      }
+      .countdown-label-block h2 {
+        font-family: "Libre Baskerville", serif;
+        font-size: clamp(22px, 3vw, 36px);
+        color: var(--white);
+        font-style: italic;
+        line-height: 1.2;
+      }
+
+      .countdown-sep {
+        width: 1px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        flex-shrink: 0;
+      }
+
+      .countdown-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0;
+        flex: 1;
+        justify-content: center;
+      }
+      .count-block {
+        text-align: center;
+        padding: 0 32px;
+        position: relative;
+      }
+      .count-block:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .count-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(64px, 9vw, 110px);
+        color: var(--white);
+        line-height: 1;
+        display: block;
+      }
+      .count-lbl {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 8px;
+        display: block;
+      }
+
+      /* ─────────────────────────────────
+       LOKASI — map + info side by side
+    ───────────────────────────────── */
+      .lokasi {
+        background: var(--white);
+        padding: 120px 6vw;
+      }
+      .lokasi-header {
+        margin-bottom: 64px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .lokasi-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 7vw, 90px);
+        line-height: 0.9;
+        letter-spacing: 2px;
+      }
+      .lokasi-title span {
+        color: var(--red);
+      }
+      .lokasi-sub {
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      .lokasi-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+      .lokasi-map {
+        overflow: hidden;
+        border: 1px solid var(--light);
+      }
+      .lokasi-map iframe {
+        width: 100%;
+        height: 420px;
+        filter: grayscale(80%) contrast(1.05);
+        border: none;
+        display: block;
+        transition: filter 0.4s;
+      }
+      .lokasi-map:hover iframe {
+        filter: grayscale(30%);
+      }
+
+      .lokasi-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .lokasi-card {
+        padding: 32px 0;
+        border-bottom: 1px solid var(--light);
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 24px;
+        align-items: start;
+        transition: background 0.2s;
+      }
+      .lokasi-card:first-child {
+        border-top: 1px solid var(--light);
+      }
+      .lokasi-card-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 48px;
+        color: var(--light);
+        line-height: 1;
+      }
+      .lokasi-card:hover .lokasi-card-num {
+        color: var(--red);
+      }
+      .lokasi-card-tag {
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 8px;
+      }
+      .lokasi-card-name {
+        font-family: "Libre Baskerville", serif;
+        font-size: 20px;
+        font-style: italic;
+        margin-bottom: 6px;
+      }
+      .lokasi-card-time {
+        font-size: 11px;
+        color: var(--mid);
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+      }
+      .lokasi-card-addr {
+        font-size: 12px;
+        color: var(--silver);
+        line-height: 1.8;
+        margin-bottom: 14px;
+      }
+      .btn-map {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--black);
+        text-decoration: none;
+        border-bottom: 1px solid var(--black);
+        padding-bottom: 2px;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+      }
+      .btn-map:hover {
+        color: var(--red);
+        border-color: var(--red);
+      }
+
+      /* ─────────────────────────────────
+       GIFT — dark, tabular
+    ───────────────────────────────── */
+      .gift {
+        background: var(--off);
+        color: var(--white);
+        padding: 120px 6vw;
+      }
+      .gift-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 64px;
+        border-bottom: 1px solid #222;
+        padding-bottom: 32px;
+      }
+      .gift-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 7vw, 90px);
+        line-height: 0.9;
+        letter-spacing: 2px;
+      }
+      .gift-title span {
+        color: var(--red);
+      }
+      .gift-note-sm {
+        font-size: 12px;
+        color: var(--mid);
+        line-height: 1.8;
+        max-width: 320px;
+        text-align: right;
+      }
+
+      .gift-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .gift-table tr {
+        border-bottom: 1px solid #222;
+      }
+      .gift-table tr:first-child {
+        border-top: 1px solid #222;
+      }
+      .gift-table td {
+        padding: 24px 0;
+        vertical-align: middle;
+      }
+      .gt-bank {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--white);
+        width: 140px;
+      }
+      .gt-holder {
+        font-size: 12px;
+        color: var(--mid);
+      }
+      .gt-num {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 18px;
+        letter-spacing: 4px;
+        color: var(--silver);
+      }
+      .btn-copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border: 1px solid #333;
+        color: var(--mid);
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        background: transparent;
+        cursor: none;
+        transition:
+          border-color 0.3s,
+          color 0.3s,
+          background 0.3s;
+      }
+      .btn-copy:hover {
+        border-color: var(--red);
+        color: var(--white);
+        background: var(--red);
+      }
+      .btn-copy.copied {
+        background: var(--red);
+        color: var(--white);
+        border-color: var(--red);
+      }
+
+      .gift-qris {
+        margin-top: 48px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 40px;
+        align-items: center;
+        border-top: 1px solid #222;
+        padding-top: 40px;
+      }
+      .qris-box {
+        width: 140px;
+        height: 140px;
+        border: 1px solid #333;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .qris-inner {
+        width: 100%;
+        height: 100%;
+        background: repeating-conic-gradient(
+            rgba(255, 255, 255, 0.08) 0% 25%,
+            transparent 0% 50%
+          )
+          0 0 / 8px 8px;
+        position: relative;
+      }
+      .qris-inner::before {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 28px;
+        height: 28px;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+      }
+      .qris-inner::after {
+        content: "";
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        width: 28px;
+        height: 28px;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+      }
+      .qris-info-label {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 12px;
+      }
+      .qris-info-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 40px;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+      .qris-info-sub {
+        font-size: 13px;
+        color: var(--mid);
+        line-height: 1.8;
+      }
+      .qris-info-hint {
+        font-size: 10px;
+        color: #444;
+        margin-top: 12px;
+      }
+
+      /* ─────────────────────────────────
+       DIGITAL GIFT
+    ───────────────────────────────── */
+      .digital {
+        background: var(--paper);
+        padding: 120px 6vw;
+      }
+      .digital-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 7vw, 90px);
+        line-height: 0.9;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+      }
+      .digital-title span {
+        color: var(--red);
+      }
+      .digital-sub {
+        font-size: 13px;
+        color: var(--mid);
+        line-height: 1.9;
+        max-width: 480px;
+        margin-bottom: 64px;
+      }
+      .digital-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--light);
+        border: 1px solid var(--light);
+      }
+      .dl-item {
+        background: var(--paper);
+        padding: 40px 32px;
+        text-decoration: none;
+        color: var(--black);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: background 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .dl-item::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--red);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .dl-item:hover {
+        background: var(--white);
+      }
+      .dl-item:hover::after {
+        transform: scaleX(1);
+      }
+      .dl-icon {
+        font-size: 28px;
+      }
+      .dl-name {
+        font-family: "Libre Baskerville", serif;
+        font-style: italic;
+        font-size: 20px;
+      }
+      .dl-desc {
+        font-size: 12px;
+        color: var(--mid);
+        line-height: 1.7;
+      }
+      .dl-arrow {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-top: auto;
+      }
+
+      /* ─────────────────────────────────
+       RSVP — full width form
+    ───────────────────────────────── */
+      .rsvp {
+        background: var(--black);
+        color: var(--white);
+        padding: 120px 6vw;
+      }
+      .rsvp-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 120px;
+        align-items: start;
+      }
+      .rsvp-left h2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(56px, 9vw, 120px);
+        line-height: 0.88;
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+      }
+      .rsvp-left h2 span {
+        color: var(--red);
+      }
+      .rsvp-left p {
+        font-size: 13px;
+        color: var(--mid);
+        line-height: 2;
+        max-width: 360px;
+      }
+
+      .rsvp-form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form-row label {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: #444;
+      }
+      .form-row input,
+      .form-row select {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #333;
+        padding: 14px 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 14px;
+        color: var(--white);
+        outline: none;
+        transition: border-color 0.3s;
+      }
+      .form-row input:focus,
+      .form-row select:focus {
+        border-color: var(--red);
+      }
+      .form-row input::placeholder {
+        color: #444;
+      }
+      .form-row select option {
+        background: var(--black);
+      }
+      .btn-rsvp {
+        margin-top: 16px;
+        padding: 18px 48px;
+        background: var(--red);
+        color: var(--white);
+        border: none;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        cursor: none;
+        align-self: flex-start;
+        transition:
+          background 0.3s,
+          transform 0.2s;
+      }
+      .btn-rsvp:hover {
+        background: var(--red-dim);
+        transform: translateY(-2px);
+      }
+
+      /* ─────────────────────────────────
+       FOOTER
+    ───────────────────────────────── */
+      footer {
+        background: var(--black);
+        border-top: 1px solid #1a1a1a;
+        padding: 60px 6vw;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 40px;
+      }
+      .footer-left {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #333;
+      }
+      .footer-center {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(32px, 5vw, 64px);
+        letter-spacing: 3px;
+        color: var(--white);
+        text-align: center;
+        line-height: 1;
+      }
+      .footer-center span {
+        color: var(--red);
+      }
+      .footer-right {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #333;
+        text-align: right;
+      }
+
+      /* ─────────────────────────────────
+       MUSIC BTN
+    ───────────────────────────────── */
+      #music-btn {
+        position: fixed;
+        bottom: 32px;
+        left: 32px;
+        z-index: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px 12px 14px;
+        background: var(--black);
+        border: 1px solid #222;
+        color: var(--white);
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 9px;
+        letter-spacing: 2px;
+        cursor: none;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(10px);
+        transition:
+          opacity 0.6s,
+          transform 0.6s,
+          background 0.3s;
+      }
+      #music-btn.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      #music-btn:hover {
+        background: var(--off);
+        border-color: var(--red);
+      }
+      .music-disc {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1px solid var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--red);
+        font-size: 10px;
+        animation: spin 4s linear infinite;
+      }
+      #music-btn.paused .music-disc {
+        animation-play-state: paused;
+        color: #444;
+        border-color: #444;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .music-lbl {
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #555;
+      }
+
+      /* ─────────────────────────────────
+       TOAST
+    ───────────────────────────────── */
+      #toast {
+        position: fixed;
+        bottom: 88px;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background: var(--red);
+        color: var(--white);
+        padding: 12px 28px;
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ─────────────────────────────────
+       REVEAL
+    ───────────────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-32px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(32px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible,
+      .reveal-left.visible,
+      .reveal-right.visible {
+        opacity: 1;
+        transform: translate(0);
+      }
+
+      /* ─────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────── */
+      @media (max-width: 900px) {
+        body {
+          cursor: auto;
+        }
+        #cursor,
+        #cursor-ring {
+          display: none;
+        }
+        .cover-inner {
+          grid-template-columns: 1fr;
+        }
+        .cover-right {
+          display: none;
+        }
+        .cover-left {
+          justify-content: center;
+          padding: 80px 36px 100px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-burger {
+          display: flex;
+          cursor: auto;
+        }
+        .intro-top {
+          grid-template-columns: 1fr;
+        }
+        .intro-tag-vert {
+          display: none;
+        }
+        .intro-photo-strip {
+          grid-template-columns: 1fr 1fr;
+        }
+        .intro-photo-strip .ps-item {
+          height: 220px;
+        }
+        .intro-photo-strip .ps-item:nth-child(3) {
+          display: none;
+        }
+        .couple-row {
+          grid-template-columns: 1fr;
+        }
+        .couple-photo-pane {
+          height: 300px;
+        }
+        .event-columns {
+          grid-template-columns: 1fr;
+        }
+        .event-divider-v {
+          display: none;
+        }
+        .event-col {
+          padding: 32px 0;
+          border-bottom: 1px solid #222;
+        }
+        .gallery-strip {
+          grid-template-columns: 1fr 1fr;
+          height: auto;
+        }
+        .gs-item {
+          height: 200px;
+        }
+        .countdown-inner {
+          flex-direction: column;
+          gap: 40px;
+        }
+        .countdown-sep {
+          display: none;
+        }
+        .lokasi-layout {
+          grid-template-columns: 1fr;
+        }
+        .gift-qris {
+          grid-template-columns: 1fr;
+        }
+        .digital-list {
+          grid-template-columns: 1fr;
+        }
+        .rsvp-layout {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+        footer {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .footer-right {
+          text-align: center;
+        }
+        .vip-grid {
+          grid-template-columns: 1fr;
+        }
+        .gb-seats {
+          display: none !important;
+        }
+        .event-top {
+          flex-direction: column;
+          gap: 24px;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="progress"></div>
+
+    <!-- ══ COVER ══ -->
+    <div id="cover">
+      <div class="cover-inner">
+        <div class="cover-left">
+          <div class="cover-issue">Wedding Invitation · 2026</div>
+          <div
+            id="cover-guest"
+            style="
+              position: absolute;
+              top: 80px;
+              left: 56px;
+              font-size: 10px;
+              letter-spacing: 4px;
+              text-transform: uppercase;
+              color: #555;
+              opacity: 0;
+              animation: slideUp 0.8s ease 0.3s forwards;
+            "
+          ></div>
+          <div class="cover-big-name">
+            AGAM<br />
+            <span class="accent">&amp;</span><br />
+            AURA
+          </div>
+          <div class="cover-rule"></div>
+          <div class="cover-meta">
+            <div class="cover-meta-date">19 April 2026</div>
+            <div class="cover-meta-city">Grand Ballroom Sudirman · Bandung</div>
+          </div>
+          <div class="cover-btn-wrap">
+            <button class="btn-open" onclick="openInvitation()">
+              <span>Buka Undangan</span>
+              <div class="btn-open-circle">→</div>
+            </button>
+          </div>
+        </div>
+        <div class="cover-right">
+          <img src="https://picsum.photos/seed/editorial1/700/900" alt="" />
+          <div class="cover-right-overlay"></div>
+        </div>
+      </div>
+
+      <!-- Mobile open button -->
+      <div
+        style="
+          position: absolute;
+          bottom: 48px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: none;
+        "
+        id="cover-mobile-btn"
+      >
+        <button
+          class="btn-open"
+          onclick="openInvitation()"
+          style="
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 14px 32px;
+            font-family: &quot;Space Grotesk&quot;, sans-serif;
+            font-size: 9px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: transparent;
+            cursor: auto;
+          "
+        >
+          <span>Buka Undangan</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bg-music" loop preload="auto" src="music/banda.mp3"></audio>
+    <button id="music-btn" onclick="toggleMusic()">
+      <span class="music-disc">♪</span>
+      <span class="music-lbl">Sampai Jadi Debu — Banda Neira</span>
+    </button>
+    <div id="toast"></div>
+
+    <!-- ══ NAVBAR ══ -->
+    <nav id="navbar">
+      <a class="nav-logo" href="#section-intro">AGAM <span>&amp;</span> AURA</a>
+      <div class="nav-vip" id="nav-vip">VIP</div>
+      <ul class="nav-links">
+        <li><a href="#section-intro" class="nav-link">Sambutan</a></li>
+        <li><a href="#section-couple" class="nav-link">Mempelai</a></li>
+        <li><a href="#section-acara" class="nav-link">Acara</a></li>
+        <li><a href="#section-gallery" class="nav-link">Galeri</a></li>
+        <li><a href="#section-hitung" class="nav-link">Hitung Mundur</a></li>
+        <li><a href="#section-lokasi" class="nav-link">Lokasi</a></li>
+        <li><a href="#section-gift" class="nav-link">Hadiah</a></li>
+        <li><a href="#section-rsvp" class="nav-link nav-rsvp">RSVP</a></li>
+      </ul>
+      <button class="nav-burger" id="burger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="#section-intro" onclick="closeMobile()">Sambutan</a>
+      <a href="#section-couple" onclick="closeMobile()">Mempelai</a>
+      <a href="#section-acara" onclick="closeMobile()">Acara</a>
+      <a href="#section-gallery" onclick="closeMobile()">Galeri</a>
+      <a href="#section-hitung" onclick="closeMobile()">Hitung Mundur</a>
+      <a href="#section-lokasi" onclick="closeMobile()">Lokasi</a>
+      <a href="#section-gift" onclick="closeMobile()">Hadiah</a>
+      <a href="#section-rsvp" onclick="closeMobile()">RSVP</a>
+    </div>
+
+    <!-- ══ MAIN ══ -->
+    <div id="main-content">
+      <!-- Guest Banner -->
+      <div class="guest-banner" id="guest-banner">
+        <div class="gb-left">
+          <span class="gb-label">Kepada Yth.</span>
+          <div class="gb-sep"></div>
+          <span class="gb-name" id="banner-name">Tamu Undangan</span>
+          <span class="gb-tag" id="banner-tag">Tamu Umum</span>
+        </div>
+        <div class="gb-seats" id="banner-seats">
+          <div class="gb-seats-num" id="banner-seats-num">2</div>
+          <div class="gb-seats-lbl">Kursi Reserved · VIP</div>
+        </div>
+      </div>
+
+      <!-- VIP Section -->
+      <div class="vip-section" id="vip-section">
+        <div
+          style="
+            font-size: 9px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 8px;
+          "
+        >
+          Eksklusif
+        </div>
+        <div
+          style="
+            font-family: &quot;Bebas Neue&quot;, sans-serif;
+            font-size: clamp(40px, 6vw, 72px);
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 0;
+          "
+        >
+          KEISTIMEWAAN VIP
+        </div>
+        <div class="vip-grid">
+          <div class="vip-cell">
+            <div class="vip-num">01</div>
+            <div class="vip-title">Reserved Seating</div>
+            <div class="vip-desc">
+              Kursi khusus di barisan terdepan telah disiapkan untuk Anda.
+            </div>
+          </div>
+          <div class="vip-cell">
+            <div class="vip-num">02</div>
+            <div class="vip-title">Welcome Drink</div>
+            <div class="vip-desc">
+              Minuman sambutan spesial tersedia di lounge penerimaan VIP.
+            </div>
+          </div>
+          <div class="vip-cell">
+            <div class="vip-num">03</div>
+            <div class="vip-title">Exclusive Souvenir</div>
+            <div class="vip-desc">
+              Souvenir edisi terbatas hanya untuk tamu istimewa kami.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTRO -->
+      <section class="intro" id="section-intro">
+        <div class="intro-number">01</div>
+        <div class="intro-top">
+          <div class="intro-tag-vert reveal">Sambutan · Undangan</div>
+          <div class="intro-text-block reveal">
+            <div class="intro-eyebrow">Bismillahirrahmanirrahim</div>
+            <h2 class="intro-headline">
+              Dengan penuh rasa <em>syukur</em><br />dan kebahagiaan,
+            </h2>
+            <p class="intro-body">
+              Kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dan
+              memberikan doa restu dalam acara pernikahan kami. Kehadiran Anda
+              adalah kebahagiaan yang tak ternilai bagi kami dan seluruh
+              keluarga.
+            </p>
+          </div>
+        </div>
+        <div class="intro-photo-strip reveal">
+          <div class="ps-item">
+            <img src="https://picsum.photos/seed/couple10/600/500" alt="" />
+          </div>
+          <div class="ps-item">
+            <img src="https://picsum.photos/seed/couple11/400/500" alt="" />
+          </div>
+          <div class="ps-item">
+            <img src="https://picsum.photos/seed/couple12/400/500" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <!-- COUPLE -->
+      <section id="section-couple">
+        <div class="couple">
+          <div class="couple-row">
+            <div class="couple-photo-pane reveal-left">
+              <img src="img/agam.jpeg" alt="Agam" />
+              <div class="cp-number">01</div>
+            </div>
+            <div class="couple-info-pane reveal-right">
+              <div class="couple-role">Mempelai Pria</div>
+              <div class="couple-name">AGAM<br />FAJAR<br />PRATAMA</div>
+              <div class="couple-sep"></div>
+              <div class="couple-parents">
+                Putra pertama dari<br />Bpk. Punidi &amp; Ibu Purwati
+              </div>
+            </div>
+          </div>
+          <div class="couple-row">
+            <div class="couple-info-pane reveal-left">
+              <div class="couple-role">Mempelai Wanita</div>
+              <div class="couple-name">SITI<br />AURANITA<br />W.P.</div>
+              <div class="couple-sep"></div>
+              <div class="couple-parents">
+                Putri pertama dari<br />Bpk. Darmawan &amp; Ibu Sari
+              </div>
+            </div>
+            <div class="couple-photo-pane reveal-right">
+              <img src="img/aura2.jpeg" alt="Aura" />
+              <div class="cp-number">02</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACARA -->
+      <section class="event" id="section-acara">
+        <div class="event-top reveal">
+          <div class="event-headline">RANGKAIAN<br /><span>ACARA</span></div>
+          <div class="event-dateline">
+            Minggu<br />19 April 2026<br />Bandung
+          </div>
+        </div>
+        <div class="event-columns">
+          <div class="event-col reveal-left">
+            <div class="event-col-tag">— 01 / Akad Nikah</div>
+            <div class="event-col-title">Ijab Kabul</div>
+            <div class="event-col-item">
+              <span class="event-col-icon">▸</span
+              ><span>Minggu, 19 April 2026<br />08.00 – 10.00 WIB</span>
+            </div>
+            <div class="event-col-item">
+              <span class="event-col-icon">▸</span
+              ><span>Masjid Agung Bandung<br />Jl. Dalem Kaum, Bandung</span>
+            </div>
+          </div>
+          <div class="event-divider-v"></div>
+          <div class="event-col reveal-right">
+            <div class="event-col-tag">— 02 / Resepsi</div>
+            <div class="event-col-title">Wedding Party</div>
+            <div class="event-col-item">
+              <span class="event-col-icon">▸</span
+              ><span>Minggu, 19 April 2026<br />11.00 – 14.00 WIB</span>
+            </div>
+            <div class="event-col-item">
+              <span class="event-col-icon">▸</span
+              ><span
+                >Grand Ballroom Sudirman<br />Jl. Sudirman No. 1, Bandung</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="gallery" id="section-gallery">
+        <div class="gallery-header reveal">
+          <div class="gallery-title">OUR<br /><span>STORY</span></div>
+          <div class="gallery-count">Foto · 01 — 04</div>
+        </div>
+        <div class="gallery-strip reveal">
+          <div class="gs-item">
+            <img src="https://picsum.photos/seed/couple1/600/500" alt="" />
+            <div class="gs-caption">Moments</div>
+          </div>
+          <div class="gs-item">
+            <img src="https://picsum.photos/seed/couple5/400/500" alt="" />
+            <div class="gs-caption">Together</div>
+          </div>
+          <div class="gs-item">
+            <img src="https://picsum.photos/seed/couple3/400/500" alt="" />
+            <div class="gs-caption">Forever</div>
+          </div>
+          <div class="gs-item">
+            <img src="https://picsum.photos/seed/couple6/600/500" alt="" />
+            <div class="gs-caption">Always</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COUNTDOWN -->
+      <section class="countdown" id="section-hitung">
+        <div class="countdown-inner reveal">
+          <div class="countdown-label-block">
+            <p>Menghitung Hari</p>
+            <h2>Menuju<br />Hari Bahagia<br />Kami</h2>
+          </div>
+          <div class="countdown-sep"></div>
+          <div class="countdown-row">
+            <div class="count-block">
+              <span class="count-num" id="days">00</span
+              ><span class="count-lbl">Hari</span>
+            </div>
+            <div class="count-block">
+              <span class="count-num" id="hours">00</span
+              ><span class="count-lbl">Jam</span>
+            </div>
+            <div class="count-block">
+              <span class="count-num" id="minutes">00</span
+              ><span class="count-lbl">Menit</span>
+            </div>
+            <div class="count-block">
+              <span class="count-num" id="seconds">00</span
+              ><span class="count-lbl">Detik</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOKASI -->
+      <section class="lokasi" id="section-lokasi">
+        <div class="lokasi-header reveal">
+          <div class="lokasi-title">
+            TEMPAT<br /><span>&amp;</span><br />WAKTU
+          </div>
+          <div class="lokasi-sub">Bandung · 2026</div>
+        </div>
+        <div class="lokasi-layout reveal">
+          <div class="lokasi-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7787275614965!2d107.57715167507847!3d-6.917036993082552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e608cfa0c18d%3A0xbe7da28b948823b!2sSudirman%20Grand%20Ballroom!5e0!3m2!1sid!2sid!4v1776139790348!5m2!1sid!2sid"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <div class="lokasi-cards">
+            <div class="lokasi-card">
+              <div class="lokasi-card-num">01</div>
+              <div>
+                <div class="lokasi-card-tag">Akad Nikah</div>
+                <div class="lokasi-card-name">Masjid Agung Bandung</div>
+                <div class="lokasi-card-time">
+                  Minggu, 19 April 2026 · 08.00 WIB
+                </div>
+                <div class="lokasi-card-addr">
+                  Jl. Dalem Kaum No. 14<br />Regol, Bandung · Jawa Barat 40251
+                </div>
+                <a
+                  class="btn-map"
+                  href="https://www.google.com/maps/place/Masjid+Agung+Bandung/"
+                  target="_blank"
+                  >↗ Google Maps</a
+                >
+              </div>
+            </div>
+            <div class="lokasi-card">
+              <div class="lokasi-card-num">02</div>
+              <div>
+                <div class="lokasi-card-tag">Resepsi Pernikahan</div>
+                <div class="lokasi-card-name">Grand Ballroom Sudirman</div>
+                <div class="lokasi-card-time">
+                  Minggu, 19 April 2026 · 11.00 WIB
+                </div>
+                <div class="lokasi-card-addr">
+                  Jl. Jend. Sudirman No.620<br />Dungus Cariang, Andir · Jawa
+                  Barat 40183
+                </div>
+                <a
+                  class="btn-map"
+                  href="https://www.google.com/maps/place/Sudirman+Grand+Ballroom/"
+                  target="_blank"
+                  >↗ Google Maps</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GIFT -->
+      <section class="gift" id="section-gift">
+        <div class="gift-header reveal">
+          <div class="gift-title">AMPLOP<br /><span>&amp; HADIAH</span></div>
+          <div class="gift-note-sm">
+            Doa restu Anda adalah hadiah terbesar. Namun jika berkenan, berikut
+            informasi transfer.
+          </div>
+        </div>
+        <table class="gift-table reveal">
+          <tr>
+            <td><div class="gt-bank">BCA</div></td>
+            <td><div class="gt-holder">a.n. Agam Fajar Pratama</div></td>
+            <td><div class="gt-num" id="rek-bca">1234 5678 90</div></td>
+            <td>
+              <button class="btn-copy" onclick="copyRek('rek-bca', this)">
+                Salin
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="gt-bank">Mandiri</div></td>
+            <td><div class="gt-holder">a.n. Siti Auranita W.P.</div></td>
+            <td><div class="gt-num" id="rek-mandiri">0987 6543 21</div></td>
+            <td>
+              <button class="btn-copy" onclick="copyRek('rek-mandiri', this)">
+                Salin
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div class="gift-qris reveal">
+          <div class="qris-box"><div class="qris-inner"></div></div>
+          <div>
+            <div class="qris-info-label">QRIS / Scan to Pay</div>
+            <div class="qris-info-title">SCAN &amp; TRANSFER</div>
+            <div class="qris-info-sub">
+              Mendukung semua e-wallet &amp; mobile banking Indonesia.
+            </div>
+            <div class="qris-info-hint">
+              Ganti placeholder dengan gambar QRIS Anda ·
+              <code style="color: #555">img/qris.png</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DIGITAL GIFT -->
+      <section class="digital" id="section-digital">
+        <div class="digital-title reveal">DIGITAL<br /><span>GIFT</span></div>
+        <p class="digital-sub reveal">
+          Kirimkan hadiah digital langsung melalui platform favorit Anda.
+        </p>
+        <div class="digital-list reveal">
+          <a
+            class="dl-item"
+            href="https://tokopedia.com/wishlist"
+            target="_blank"
+          >
+            <span class="dl-icon">🛍️</span>
+            <span class="dl-name">Tokopedia Wishlist</span>
+            <span class="dl-desc"
+              >Lihat dan beli dari daftar keinginan kami langsung di
+              Tokopedia.</span
+            >
+            <span class="dl-arrow">↗ Kunjungi</span>
+          </a>
+          <a class="dl-item" href="https://shopee.co.id" target="_blank">
+            <span class="dl-icon">🏡</span>
+            <span class="dl-name">Shopee Wishlist</span>
+            <span class="dl-desc"
+              >Daftar hadiah rumah tangga pilihan kami tersedia di Shopee.</span
+            >
+            <span class="dl-arrow">↗ Kunjungi</span>
+          </a>
+          <a
+            class="dl-item"
+            href="https://wa.me/6281234567890?text=Halo%2C+saya+ingin+memberikan+hadiah+untuk+Agam+%26+Aura"
+            target="_blank"
+          >
+            <span class="dl-icon">💬</span>
+            <span class="dl-name">WhatsApp Langsung</span>
+            <span class="dl-desc"
+              >Chat langsung untuk koordinasi hadiah spesial via WhatsApp.</span
+            >
+            <span class="dl-arrow">↗ Chat</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- RSVP -->
+      <section class="rsvp" id="section-rsvp">
+        <div class="rsvp-layout reveal">
+          <div class="rsvp-left">
+            <h2>KONFIRMASI<br /><span>KEHADIRAN</span></h2>
+            <p>
+              Mohon konfirmasi kehadiran Anda paling lambat 7 hari sebelum acara
+              berlangsung. Kami sangat menantikan kehadiran Anda.
+            </p>
+          </div>
+          <form class="rsvp-form" onsubmit="handleRSVP(event)">
+            <div class="form-row">
+              <label>Nama Lengkap</label
+              ><input
+                type="text"
+                id="rsvp-nama"
+                placeholder="Masukkan nama Anda"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label>Nomor HP / WhatsApp</label
+              ><input type="tel" placeholder="+62" />
+            </div>
+            <div class="form-row">
+              <label>Kehadiran</label>
+              <select required>
+                <option value="" disabled selected>— Pilih —</option>
+                <option>Hadir</option>
+                <option>Tidak Dapat Hadir</option>
+                <option>Masih Belum Pasti</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>Jumlah Tamu</label
+              ><input type="number" min="1" max="5" placeholder="1" />
+            </div>
+            <button type="submit" class="btn-rsvp">Kirim Konfirmasi →</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-left">
+          Made with love · 2026<br />
+          QS. Ar-Rum: 21
+        </div>
+        <div class="footer-center">AGAM <span>&amp;</span> AURA</div>
+        <div class="footer-right">
+          19 · 04 · 2026<br />
+          Grand Ballroom Sudirman<br />Bandung
+        </div>
+      </footer>
+    </div>
+    <!-- /#main-content -->
+
+    <script>
+      /* ── CURSOR ── */
+      const cur = document.getElementById("cursor");
+      const ring = document.getElementById("cursor-ring");
+      document.addEventListener("mousemove", (e) => {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+        ring.style.left = e.clientX + "px";
+        ring.style.top = e.clientY + "px";
+      });
+      document.querySelectorAll("a,button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cur.style.width = "6px";
+          cur.style.height = "6px";
+          ring.style.width = "52px";
+          ring.style.height = "52px";
+        });
+        el.addEventListener("mouseleave", () => {
+          cur.style.width = "10px";
+          cur.style.height = "10px";
+          ring.style.width = "36px";
+          ring.style.height = "36px";
+        });
+      });
+
+      /* ── URL PARAMS ── */
+      const params = new URLSearchParams(window.location.search);
+      const guestName = params.get("to") || "";
+      const guestType = (params.get("type") || "").toLowerCase();
+      const guestSeats = parseInt(params.get("seats")) || 2;
+      const isVIP = guestType === "vip";
+
+      if (guestName) {
+        document.getElementById("cover-guest").textContent =
+          "Kepada Yth. " + decodeURIComponent(guestName);
+      }
+
+      /* ── OPEN INVITATION ── */
+      document.body.style.overflow = "hidden";
+
+      // Show mobile button on mobile
+      if (window.innerWidth <= 900) {
+        document.getElementById("cover-mobile-btn").style.display = "block";
+      }
+
+      function openInvitation() {
+        const cover = document.getElementById("cover");
+        const main = document.getElementById("main-content");
+        const nav = document.getElementById("navbar");
+        cover.classList.add("hiding");
+        setTimeout(() => {
+          cover.classList.add("hidden");
+          document.body.style.overflow = "";
+          main.classList.add("visible");
+          nav.classList.add("visible");
+          window.scrollTo({ top: 0 });
+
+          if (guestName)
+            document.getElementById("banner-name").textContent =
+              decodeURIComponent(guestName);
+          if (isVIP) {
+            const tag = document.getElementById("banner-tag");
+            tag.textContent = "▸ TAMU VIP";
+            tag.style.color = "var(--red)";
+            tag.style.borderColor = "rgba(200,57,43,0.5)";
+            document.getElementById("banner-seats").classList.add("show");
+            document.getElementById("banner-seats-num").textContent =
+              guestSeats;
+            document.getElementById("vip-section").classList.add("show");
+            document.getElementById("nav-vip").classList.add("show");
+          }
+          if (guestName)
+            document.getElementById("rsvp-nama").value =
+              decodeURIComponent(guestName);
+        }, 1100);
+
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0;
+        audio.play().catch(() => {});
+        let v = 0;
+        const fi = setInterval(() => {
+          v = Math.min(v + 0.02, 0.5);
+          audio.volume = v;
+          if (v >= 0.5) clearInterval(fi);
+        }, 80);
+        setTimeout(
+          () => document.getElementById("music-btn").classList.add("show"),
+          1500,
+        );
+      }
+
+      /* ── MUSIC ── */
+      function toggleMusic() {
+        const a = document.getElementById("bg-music"),
+          b = document.getElementById("music-btn");
+        if (a.paused) {
+          a.play();
+          b.classList.remove("paused");
+        } else {
+          a.pause();
+          b.classList.add("paused");
+        }
+      }
+      document.addEventListener("visibilitychange", () => {
+        const a = document.getElementById("bg-music");
+        if (!a) return;
+        if (document.hidden) {
+          let v = a.volume;
+          const fo = setInterval(() => {
+            v = Math.max(v - 0.05, 0);
+            a.volume = v;
+            if (v <= 0) {
+              a.pause();
+              clearInterval(fo);
+            }
+          }, 50);
+        } else {
+          a.play().catch(() => {});
+          let v = 0;
+          a.volume = 0;
+          const fi = setInterval(() => {
+            v = Math.min(v + 0.05, 0.5);
+            a.volume = v;
+            if (v >= 0.5) clearInterval(fi);
+          }, 50);
+        }
+      });
+
+      /* ── COPY REKENING ── */
+      function copyRek(id, btn) {
+        navigator.clipboard
+          .writeText(document.getElementById(id).textContent.replace(/\s/g, ""))
+          .then(() => {
+            btn.textContent = "✓ Disalin";
+            btn.classList.add("copied");
+            showToast("Nomor rekening disalin!");
+            setTimeout(() => {
+              btn.textContent = "Salin";
+              btn.classList.remove("copied");
+            }, 2500);
+          });
+      }
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2500);
+      }
+
+      /* ── NAVBAR ── */
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("navbar");
+        nav.classList.toggle("scrolled", window.scrollY > 10);
+        let cur = "";
+        document.querySelectorAll("section[id]").forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 90) cur = s.id;
+        });
+        document.querySelectorAll(".nav-link").forEach((a) => {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + cur);
+        });
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById("progress").style.width =
+          (window.scrollY / h) * 100 + "%";
+      });
+
+      function toggleMobile() {
+        document.getElementById("nav-mobile").classList.toggle("open");
+        document.getElementById("burger").classList.toggle("open");
+      }
+      function closeMobile() {
+        document.getElementById("nav-mobile").classList.remove("open");
+        document.getElementById("burger").classList.remove("open");
+      }
+
+      /* ── COUNTDOWN ── */
+      const wedding = new Date("2026-04-19T08:00:00");
+      function tick() {
+        const diff = wedding - new Date(),
+          pad = (n) => String(Math.max(0, n)).padStart(2, "0");
+        document.getElementById("days").textContent = pad(
+          Math.floor(diff / 86400000),
+        );
+        document.getElementById("hours").textContent = pad(
+          Math.floor((diff % 86400000) / 3600000),
+        );
+        document.getElementById("minutes").textContent = pad(
+          Math.floor((diff % 3600000) / 60000),
+        );
+        document.getElementById("seconds").textContent = pad(
+          Math.floor((diff % 60000) / 1000),
+        );
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      /* ── RSVP ── */
+      function handleRSVP(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector(".btn-rsvp");
+        btn.textContent = "TERIMA KASIH ✓";
+        btn.style.background = "#2a2a2a";
+        btn.disabled = true;
+        showToast("RSVP berhasil dikirim!");
+      }
+
+      /* ── REVEAL ── */
+      const ro = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((el) => {
+            if (el.isIntersecting) {
+              el.target.classList.add("visible");
+              ro.unobserve(el.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document
+        .querySelectorAll(".reveal,.reveal-left,.reveal-right")
+        .forEach((el) => ro.observe(el));
+    </script>
+  </body>
+</html>

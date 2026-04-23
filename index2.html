@@ -1,0 +1,2399 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agam & Aura — 19 April 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@200;300;400&family=Pinyon+Script&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --forest: #1a2e1e;
+        --moss: #2d4a32;
+        --sage: #7a9e7e;
+        --fern: #4d7a52;
+        --ivory: #f4f0e4;
+        --warm: #ede6d3;
+        --parch: #d4c9a8;
+        --copper: #b87333;
+        --blush: #e8d5c4;
+        --white: #faf8f3;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--ivory);
+        color: var(--forest);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+      }
+
+      /* ─────────────────────────────────
+       PROGRESS BAR
+    ───────────────────────────────── */
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(to right, var(--copper), var(--sage));
+        z-index: 9999;
+        width: 0%;
+        transition: width 0.15s;
+      }
+
+      /* ─────────────────────────────────
+       COVER — Full dark, centered, 
+       botanical texture background
+    ───────────────────────────────── */
+      #cover {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: var(--forest);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition:
+          clip-path 1s cubic-bezier(0.77, 0, 0.18, 1),
+          opacity 0.6s ease;
+        clip-path: inset(0% 0% 0% 0%);
+      }
+      #cover.hiding {
+        clip-path: inset(0% 0% 100% 0%);
+        opacity: 0;
+      }
+      #cover.hidden {
+        display: none;
+      }
+
+      /* Decorative botanical lines */
+      .cover-bg {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .cover-bg::before {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background-image:
+          radial-gradient(
+            circle at 20% 80%,
+            rgba(122, 158, 126, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(122, 158, 126, 0.06) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(184, 115, 51, 0.04) 0%,
+            transparent 60%
+          );
+      }
+      .cover-lines {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            135deg,
+            transparent 49.5%,
+            rgba(122, 158, 126, 0.06) 49.5%,
+            rgba(122, 158, 126, 0.06) 50.5%,
+            transparent 50.5%
+          ),
+          linear-gradient(
+            45deg,
+            transparent 49.5%,
+            rgba(122, 158, 126, 0.04) 49.5%,
+            rgba(122, 158, 126, 0.04) 50.5%,
+            transparent 50.5%
+          );
+      }
+
+      /* Corner ornaments */
+      .cover-corner {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        opacity: 0.3;
+      }
+      .cover-corner.tl {
+        top: 32px;
+        left: 32px;
+        border-top: 1px solid var(--sage);
+        border-left: 1px solid var(--sage);
+      }
+      .cover-corner.tr {
+        top: 32px;
+        right: 32px;
+        border-top: 1px solid var(--sage);
+        border-right: 1px solid var(--sage);
+      }
+      .cover-corner.bl {
+        bottom: 32px;
+        left: 32px;
+        border-bottom: 1px solid var(--sage);
+        border-left: 1px solid var(--sage);
+      }
+      .cover-corner.br {
+        bottom: 32px;
+        right: 32px;
+        border-bottom: 1px solid var(--sage);
+        border-right: 1px solid var(--sage);
+      }
+
+      .cover-body {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        padding: 40px;
+      }
+
+      .cover-eyebrow {
+        font-size: 9px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 48px;
+        opacity: 0;
+        animation: fadeSlide 0.9s ease 0.4s forwards;
+      }
+
+      .cover-script {
+        font-family: "Pinyon Script", cursive;
+        font-size: clamp(80px, 14vw, 160px);
+        line-height: 0.9;
+        color: var(--ivory);
+        display: block;
+        opacity: 0;
+        animation: fadeSlide 1s ease 0.65s forwards;
+      }
+      .cover-script .and-sign {
+        display: block;
+        font-size: 0.55em;
+        color: var(--copper);
+        margin: -8px 0;
+      }
+
+      .cover-subtitle {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        opacity: 0;
+        animation: fadeSlide 0.9s ease 0.9s forwards;
+      }
+      .cover-subtitle span {
+        font-size: 11px;
+        letter-spacing: 4px;
+        color: var(--parch);
+        text-transform: uppercase;
+      }
+      .cover-subtitle i {
+        width: 40px;
+        height: 1px;
+        background: var(--copper);
+        display: block;
+        flex-shrink: 0;
+      }
+
+      .cover-divider-h {
+        width: 1px;
+        height: 56px;
+        background: rgba(122, 158, 126, 0.3);
+        margin: 48px auto;
+        opacity: 0;
+        animation: fadeSlide 0.9s ease 1.05s forwards;
+      }
+
+      .btn-open {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 48px;
+        background: transparent;
+        border: 1px solid rgba(122, 158, 126, 0.5);
+        color: var(--ivory);
+        font-family: "DM Sans", sans-serif;
+        font-size: 10px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition:
+          color 0.5s,
+          border-color 0.4s;
+        opacity: 0;
+        animation: fadeSlide 0.9s ease 1.2s forwards;
+      }
+      .btn-open::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--sage);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s cubic-bezier(0.77, 0, 0.18, 1);
+        z-index: 0;
+      }
+      .btn-open:hover {
+        color: var(--forest);
+        border-color: var(--sage);
+      }
+      .btn-open:hover::after {
+        transform: scaleX(1);
+      }
+      .btn-open span,
+      .btn-open svg {
+        position: relative;
+        z-index: 1;
+      }
+
+      @keyframes fadeSlide {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─────────────────────────────────
+       NAVBAR
+    ───────────────────────────────── */
+      #navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        height: 68px;
+        padding: 0 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(244, 240, 228, 0.95);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid transparent;
+        transition:
+          border-color 0.4s,
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      #navbar.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      #navbar.scrolled {
+        border-bottom-color: rgba(122, 158, 126, 0.25);
+      }
+
+      .nav-logo {
+        font-family: "Pinyon Script", cursive;
+        font-size: 28px;
+        color: var(--moss);
+        text-decoration: none;
+        line-height: 1;
+        letter-spacing: 1px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .nav-links a {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--fern);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 3px;
+        transition: color 0.3s;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--copper);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--forest);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .nav-rsvp-link {
+        padding: 9px 22px !important;
+        background: var(--moss) !important;
+        color: var(--ivory) !important;
+        border-radius: 0 !important;
+      }
+      .nav-rsvp-link::after {
+        display: none !important;
+      }
+      .nav-rsvp-link:hover {
+        background: var(--copper) !important;
+        color: var(--white) !important;
+      }
+
+      .nav-vip {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--copper);
+        border: 1px solid rgba(184, 115, 51, 0.4);
+      }
+      .nav-vip.show {
+        display: inline-flex;
+      }
+
+      .nav-burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .nav-burger span {
+        display: block;
+        width: 22px;
+        height: 1px;
+        background: var(--forest);
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .nav-burger.open span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+      .nav-burger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-burger.open span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
+      .nav-mobile {
+        display: none;
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: rgba(244, 240, 228, 0.98);
+        backdrop-filter: blur(16px);
+        padding: 32px 6vw 40px;
+        flex-direction: column;
+        gap: 24px;
+        border-bottom: 1px solid rgba(122, 158, 126, 0.2);
+        z-index: 499;
+      }
+      .nav-mobile.open {
+        display: flex;
+      }
+      .nav-mobile a {
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--moss);
+        text-decoration: none;
+      }
+
+      /* ─────────────────────────────────
+       MAIN CONTENT
+    ───────────────────────────────── */
+      #main-content {
+        opacity: 0;
+        transition: opacity 0.8s ease 0.2s;
+        padding-top: 68px;
+      }
+      #main-content.visible {
+        opacity: 1;
+      }
+
+      /* ─────────────────────────────────
+       GUEST BANNER
+    ───────────────────────────────── */
+      .guest-banner {
+        background: var(--moss);
+        padding: 24px 10vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .guest-banner-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .guest-banner-label {
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--sage);
+      }
+      .guest-banner-name {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-style: italic;
+        color: var(--ivory);
+      }
+      .guest-banner-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--parch);
+        border: 1px solid rgba(212, 201, 168, 0.3);
+      }
+      .guest-seats {
+        display: none;
+        text-align: right;
+      }
+      .guest-seats.show {
+        display: block;
+      }
+      .guest-seats-num {
+        font-family: "Playfair Display", serif;
+        font-size: 36px;
+        color: var(--copper);
+        font-weight: 400;
+        line-height: 1;
+      }
+      .guest-seats-label {
+        font-size: 8px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--sage);
+      }
+      .guest-seats-sub {
+        font-size: 10px;
+        color: var(--parch);
+        opacity: 0.7;
+      }
+
+      /* ─────────────────────────────────
+       VIP SECTION
+    ───────────────────────────────── */
+      .vip-section {
+        display: none;
+        background: var(--forest);
+        color: var(--ivory);
+        padding: 80px 10vw;
+      }
+      .vip-section.show {
+        display: block;
+      }
+      .vip-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 48px;
+      }
+      .vip-card {
+        padding: 36px 28px;
+        border: 1px solid rgba(122, 158, 126, 0.2);
+        transition: border-color 0.3s;
+        position: relative;
+      }
+      .vip-card:hover {
+        border-color: var(--sage);
+      }
+      .vip-card-icon {
+        font-size: 26px;
+        margin-bottom: 16px;
+      }
+      .vip-card-title {
+        font-size: 9px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 12px;
+      }
+      .vip-card-desc {
+        font-size: 13px;
+        color: var(--parch);
+        line-height: 1.8;
+        opacity: 0.8;
+      }
+
+      /* ─────────────────────────────────
+       SECTION COMMONS
+    ───────────────────────────────── */
+      .sec-label {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--copper);
+        margin-bottom: 48px;
+      }
+      .sec-label::before {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: var(--copper);
+      }
+
+      /* ─────────────────────────────────
+       HERO / INTRO
+       Full-bleed diagonal split
+    ───────────────────────────────── */
+      .intro {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+        overflow: hidden;
+      }
+      .intro-photo {
+        position: relative;
+        overflow: hidden;
+      }
+      .intro-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: sepia(25%) brightness(0.82) saturate(1.1);
+        transition: transform 8s ease;
+      }
+      .intro-photo::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          135deg,
+          rgba(26, 46, 30, 0.4) 0%,
+          transparent 60%
+        );
+      }
+      .intro-photo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(to right, transparent 70%, var(--ivory));
+      }
+
+      .intro-content {
+        background: var(--ivory);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 72px 80px 64px;
+        position: relative;
+      }
+
+      /* Large rotated number in bg */
+      .intro-content::before {
+        content: "01";
+        position: absolute;
+        top: -20px;
+        right: 20px;
+        font-family: "Playfair Display", serif;
+        font-size: 180px;
+        color: rgba(122, 158, 126, 0.06);
+        font-weight: 500;
+        pointer-events: none;
+        line-height: 1;
+        user-select: none;
+      }
+
+      .intro-content p {
+        font-size: 15px;
+        line-height: 2;
+        color: var(--fern);
+        max-width: 420px;
+        margin-bottom: 40px;
+      }
+      .intro-content h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(28px, 3.5vw, 44px);
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--forest);
+        margin-bottom: 24px;
+      }
+      .intro-content h2 em {
+        font-style: italic;
+        color: var(--fern);
+      }
+
+      /* ─────────────────────────────────
+       COUPLE
+       Staggered vertical layout
+    ───────────────────────────────── */
+      .couple {
+        padding: 120px 10vw;
+        background: var(--warm);
+      }
+      .couple-heading {
+        font-family: "Pinyon Script", cursive;
+        font-size: clamp(60px, 9vw, 120px);
+        color: var(--moss);
+        line-height: 0.9;
+        margin-bottom: 72px;
+        text-align: center;
+        position: relative;
+      }
+      .couple-heading::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 1px;
+        background: var(--copper);
+        margin: 24px auto 0;
+      }
+
+      .couple-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+      }
+      .couple-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .couple-card:first-child {
+        padding-right: 48px;
+        border-right: 1px solid rgba(122, 158, 126, 0.2);
+      }
+      .couple-card:last-child {
+        padding-left: 48px;
+        padding-top: 80px;
+      }
+
+      .couple-photo-wrap {
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 28px;
+      }
+      .couple-card:first-child .couple-photo-wrap {
+        width: 240px;
+        height: 340px;
+      }
+      .couple-card:last-child .couple-photo-wrap {
+        width: 200px;
+        height: 280px;
+        margin-left: auto;
+      }
+
+      .couple-photo-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: sepia(10%) brightness(0.92);
+        transition: transform 0.6s ease;
+        display: block;
+      }
+      .couple-photo-wrap:hover img {
+        transform: scale(1.04);
+      }
+
+      /* Offset frame on photo */
+      .couple-photo-wrap::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        width: 60%;
+        height: 60%;
+        border: 1px solid var(--copper);
+        z-index: 0;
+        pointer-events: none;
+        transition: transform 0.4s;
+      }
+      .couple-photo-wrap:hover::after {
+        transform: translate(4px, 4px);
+      }
+
+      .couple-name {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(22px, 3vw, 36px);
+        font-style: italic;
+        color: var(--forest);
+        margin-bottom: 8px;
+      }
+      .couple-role {
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 16px;
+      }
+      .couple-parents {
+        font-size: 12px;
+        color: var(--fern);
+        line-height: 2;
+      }
+
+      /* ─────────────────────────────────
+       EVENT
+       Horizontal timeline layout
+    ───────────────────────────────── */
+      .event {
+        background: var(--forest);
+        color: var(--ivory);
+        padding: 120px 10vw;
+      }
+      .event .sec-label {
+        color: var(--sage);
+      }
+      .event .sec-label::before {
+        background: var(--sage);
+      }
+
+      .event-timeline {
+        display: grid;
+        grid-template-columns: 1fr 80px 1fr;
+        align-items: center;
+        gap: 0;
+        margin-top: 64px;
+      }
+      .event-card {
+        padding: 48px 40px;
+        border: 1px solid rgba(122, 158, 126, 0.15);
+        transition: border-color 0.3s;
+        position: relative;
+      }
+      .event-card:hover {
+        border-color: rgba(122, 158, 126, 0.4);
+      }
+      .event-card-tag {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 20px;
+      }
+      .event-card-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(26px, 3vw, 38px);
+        font-weight: 400;
+        font-style: italic;
+        margin-bottom: 32px;
+      }
+      .event-card-detail {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 14px;
+        font-size: 13px;
+        color: rgba(212, 201, 168, 0.8);
+        line-height: 1.7;
+      }
+      .event-card-icon {
+        color: var(--sage);
+        flex-shrink: 0;
+        margin-top: 2px;
+        font-size: 12px;
+      }
+
+      .event-divider {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .event-divider-line {
+        flex: 1;
+        width: 1px;
+        background: rgba(122, 158, 126, 0.2);
+      }
+      .event-divider-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 1px solid var(--copper);
+        position: relative;
+      }
+      .event-divider-dot::before {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: var(--copper);
+      }
+
+      /* ─────────────────────────────────
+       GALLERY
+       Masonry-feel offset grid
+    ───────────────────────────────── */
+      .gallery {
+        background: var(--ivory);
+        padding: 120px 10vw;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 260px 260px;
+        gap: 12px;
+        margin-top: 48px;
+      }
+      .gal-item {
+        overflow: hidden;
+        position: relative;
+      }
+      .gal-item:nth-child(1) {
+        grid-column: 1/3;
+        grid-row: 1/2;
+      }
+      .gal-item:nth-child(2) {
+        grid-column: 3/4;
+        grid-row: 1/3;
+      }
+      .gal-item:nth-child(3) {
+        grid-column: 4/5;
+        grid-row: 1/2;
+      }
+      .gal-item:nth-child(4) {
+        grid-column: 1/2;
+        grid-row: 2/3;
+      }
+      .gal-item:nth-child(5) {
+        grid-column: 4/5;
+        grid-row: 2/3;
+      }
+
+      .gal-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: sepia(8%) brightness(0.9);
+        transition:
+          transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          filter 0.4s;
+      }
+      .gal-item:hover img {
+        transform: scale(1.06);
+        filter: sepia(0%) brightness(1);
+      }
+      .gal-item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(26, 46, 30, 0);
+        transition: background 0.4s;
+      }
+      .gal-item:hover::after {
+        background: rgba(26, 46, 30, 0.05);
+      }
+
+      /* ─────────────────────────────────
+       COUNTDOWN
+       Bold typographic style
+    ───────────────────────────────── */
+      .countdown {
+        background: var(--moss);
+        padding: 100px 10vw;
+        overflow: hidden;
+        position: relative;
+      }
+      .countdown::before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        background:
+          radial-gradient(
+            circle at 70% 50%,
+            rgba(122, 158, 126, 0.12) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 20% 80%,
+            rgba(184, 115, 51, 0.06) 0%,
+            transparent 40%
+          );
+      }
+
+      .countdown-inner {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+      }
+      .countdown h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(28px, 4vw, 48px);
+        font-style: italic;
+        color: var(--ivory);
+        margin-bottom: 8px;
+      }
+      .countdown-sub {
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 72px;
+      }
+
+      .countdown-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      .count-block {
+        text-align: center;
+        padding: 0 48px;
+        position: relative;
+      }
+      .count-block:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 1px;
+        background: rgba(122, 158, 126, 0.2);
+      }
+      .count-num {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(56px, 7vw, 96px);
+        color: var(--ivory);
+        line-height: 1;
+        display: block;
+        font-weight: 400;
+      }
+      .count-lbl {
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-top: 12px;
+        display: block;
+      }
+
+      /* ─────────────────────────────────
+       LOKASI
+    ───────────────────────────────── */
+      .lokasi {
+        background: var(--warm);
+        padding: 120px 10vw;
+      }
+      .lokasi-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 48px;
+      }
+      .lokasi-card {
+        background: var(--white);
+        padding: 44px 40px;
+        border: 1px solid rgba(122, 158, 126, 0.15);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .lokasi-card:hover {
+        border-color: var(--sage);
+        box-shadow: 0 12px 40px rgba(26, 46, 30, 0.07);
+      }
+      .lokasi-tag {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--copper);
+        margin-bottom: 20px;
+      }
+      .lokasi-name {
+        font-family: "Playfair Display", serif;
+        font-size: 26px;
+        font-weight: 400;
+        margin-bottom: 12px;
+        line-height: 1.2;
+      }
+      .lokasi-time {
+        font-size: 12px;
+        color: var(--fern);
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .lokasi-time::before {
+        content: "";
+        display: block;
+        width: 16px;
+        height: 1px;
+        background: var(--copper);
+      }
+      .lokasi-addr {
+        font-size: 13px;
+        color: var(--fern);
+        line-height: 1.9;
+        margin-bottom: 28px;
+        opacity: 0.8;
+      }
+      .btn-map {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 24px;
+        border: 1px solid var(--moss);
+        color: var(--moss);
+        font-family: "DM Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      .btn-map:hover {
+        background: var(--moss);
+        color: var(--ivory);
+      }
+      .map-wrap {
+        margin-top: 40px;
+        border: 1px solid rgba(122, 158, 126, 0.2);
+        overflow: hidden;
+      }
+      .map-wrap iframe {
+        width: 100%;
+        height: 360px;
+        filter: grayscale(50%) sepia(15%);
+        border: none;
+        display: block;
+      }
+
+      /* ─────────────────────────────────
+       GIFT / REKENING
+    ───────────────────────────────── */
+      .gift {
+        background: var(--forest);
+        color: var(--ivory);
+        padding: 120px 10vw;
+      }
+      .gift .sec-label {
+        color: var(--sage);
+      }
+      .gift .sec-label::before {
+        background: var(--sage);
+      }
+      .gift-note {
+        font-size: 14px;
+        line-height: 2;
+        color: rgba(212, 201, 168, 0.8);
+        max-width: 520px;
+        margin-bottom: 56px;
+      }
+
+      .gift-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .rek-card {
+        border: 1px solid rgba(122, 158, 126, 0.15);
+        padding: 40px 36px;
+        transition: border-color 0.3s;
+      }
+      .rek-card:hover {
+        border-color: rgba(122, 158, 126, 0.4);
+      }
+      .rek-label {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 20px;
+      }
+      .rek-bank {
+        font-family: "Playfair Display", serif;
+        font-size: 30px;
+        font-style: italic;
+        margin-bottom: 6px;
+      }
+      .rek-holder {
+        font-size: 12px;
+        color: rgba(212, 201, 168, 0.7);
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+      }
+      .rek-number-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(122, 158, 126, 0.08);
+        padding: 16px 20px;
+        margin-bottom: 12px;
+      }
+      .rek-number {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        letter-spacing: 4px;
+        color: var(--parch);
+      }
+      .btn-copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border: 1px solid rgba(122, 158, 126, 0.4);
+        color: var(--sage);
+        font-family: "DM Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: transparent;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          color 0.3s,
+          border-color 0.3s;
+      }
+      .btn-copy:hover {
+        background: var(--sage);
+        color: var(--forest);
+        border-color: var(--sage);
+      }
+      .btn-copy.copied {
+        background: var(--copper);
+        color: var(--white);
+        border-color: var(--copper);
+      }
+
+      .qris-card {
+        border: 1px solid rgba(122, 158, 126, 0.15);
+        padding: 40px 36px;
+        text-align: center;
+        transition: border-color 0.3s;
+      }
+      .qris-card:hover {
+        border-color: rgba(122, 158, 126, 0.4);
+      }
+      .qris-label {
+        font-size: 8px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 20px;
+      }
+      .qris-title {
+        font-family: "Playfair Display", serif;
+        font-size: 30px;
+        font-style: italic;
+        margin-bottom: 8px;
+      }
+      .qris-sub {
+        font-size: 12px;
+        color: rgba(212, 201, 168, 0.6);
+        margin-bottom: 28px;
+      }
+      .qris-box {
+        width: 160px;
+        height: 160px;
+        margin: 0 auto 20px;
+        border: 1px solid rgba(122, 158, 126, 0.2);
+        padding: 10px;
+        background: rgba(122, 158, 126, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .qris-placeholder {
+        width: 100%;
+        height: 100%;
+        background: repeating-conic-gradient(
+            rgba(212, 201, 168, 0.3) 0% 25%,
+            transparent 0% 50%
+          )
+          0 0 / 7px 7px;
+        position: relative;
+      }
+      .qris-placeholder::before {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(212, 201, 168, 0.5);
+      }
+      .qris-placeholder::after {
+        content: "";
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(212, 201, 168, 0.5);
+      }
+      .qris-hint {
+        font-size: 10px;
+        color: rgba(122, 158, 126, 0.7);
+      }
+
+      /* ─────────────────────────────────
+       DIGITAL GIFT
+    ───────────────────────────────── */
+      .digital {
+        background: var(--ivory);
+        padding: 120px 10vw;
+      }
+      .digital-note {
+        font-size: 14px;
+        line-height: 2;
+        color: var(--fern);
+        max-width: 520px;
+        margin-bottom: 56px;
+      }
+      .digital-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .dg-item {
+        background: var(--warm);
+        border: 1px solid rgba(122, 158, 126, 0.15);
+        padding: 36px 28px;
+        text-decoration: none;
+        color: var(--forest);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        transition:
+          border-color 0.3s,
+          transform 0.3s,
+          box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .dg-item::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--copper);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .dg-item:hover {
+        border-color: var(--sage);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 48px rgba(26, 46, 30, 0.08);
+      }
+      .dg-item:hover::before {
+        transform: scaleX(1);
+      }
+      .dg-icon {
+        font-size: 28px;
+      }
+      .dg-name {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-style: italic;
+      }
+      .dg-desc {
+        font-size: 12px;
+        color: var(--fern);
+        line-height: 1.7;
+        opacity: 0.85;
+      }
+      .dg-link {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--copper);
+        margin-top: auto;
+      }
+
+      /* ─────────────────────────────────
+       RSVP
+       Clean, centered, light bg
+    ───────────────────────────────── */
+      .rsvp {
+        background: var(--warm);
+        padding: 120px 10vw;
+      }
+      .rsvp-inner {
+        max-width: 560px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .rsvp .sec-label {
+        justify-content: center;
+      }
+      .rsvp h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 400;
+        font-style: italic;
+        margin-bottom: 16px;
+        color: var(--forest);
+      }
+      .rsvp-sub {
+        font-size: 13px;
+        color: var(--fern);
+        line-height: 1.9;
+        margin-bottom: 56px;
+      }
+      .rsvp-form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        text-align: left;
+      }
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form-row label {
+        font-size: 8px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--sage);
+      }
+      .form-row input,
+      .form-row select {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(122, 158, 126, 0.3);
+        padding: 12px 0;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--forest);
+        outline: none;
+        transition: border-color 0.3s;
+      }
+      .form-row input:focus,
+      .form-row select:focus {
+        border-color: var(--copper);
+      }
+      .form-row input::placeholder {
+        color: rgba(77, 122, 82, 0.4);
+      }
+      .btn-rsvp {
+        margin-top: 8px;
+        padding: 16px 48px;
+        background: var(--moss);
+        color: var(--ivory);
+        border: none;
+        font-family: "DM Sans", sans-serif;
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        align-self: center;
+        transition:
+          background 0.3s,
+          transform 0.2s;
+      }
+      .btn-rsvp:hover {
+        background: var(--copper);
+        transform: translateY(-2px);
+      }
+
+      /* ─────────────────────────────────
+       FOOTER
+    ───────────────────────────────── */
+      footer {
+        background: var(--forest);
+        color: rgba(212, 201, 168, 0.7);
+        text-align: center;
+        padding: 80px 10vw;
+      }
+      .footer-script {
+        font-family: "Pinyon Script", cursive;
+        font-size: clamp(48px, 8vw, 100px);
+        color: var(--ivory);
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+      .footer-date {
+        font-size: 9px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 48px;
+      }
+      .footer-line {
+        width: 40px;
+        height: 1px;
+        background: var(--copper);
+        margin: 0 auto 32px;
+      }
+      .footer-quote {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 13px;
+        line-height: 2;
+        max-width: 420px;
+        margin: 0 auto 48px;
+        color: rgba(212, 201, 168, 0.65);
+      }
+      .footer-copy {
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: rgba(122, 158, 126, 0.3);
+      }
+
+      /* ─────────────────────────────────
+       MUSIC BTN
+    ───────────────────────────────── */
+      #music-btn {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        z-index: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px 12px 14px;
+        background: var(--moss);
+        border: 1px solid rgba(122, 158, 126, 0.4);
+        color: var(--ivory);
+        font-family: "DM Sans", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition:
+          opacity 0.6s,
+          transform 0.6s,
+          background 0.3s;
+      }
+      #music-btn.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      #music-btn:hover {
+        background: var(--forest);
+        border-color: var(--sage);
+      }
+      .music-disc {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid var(--sage);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--sage);
+        font-size: 12px;
+        animation: spin 5s linear infinite;
+      }
+      #music-btn.paused .music-disc {
+        animation-play-state: paused;
+        color: var(--parch);
+        border-color: var(--parch);
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .music-lbl {
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(212, 201, 168, 0.7);
+      }
+
+      /* ─────────────────────────────────
+       TOAST
+    ───────────────────────────────── */
+      #toast {
+        position: fixed;
+        bottom: 88px;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background: var(--moss);
+        color: var(--ivory);
+        border: 1px solid rgba(122, 158, 126, 0.4);
+        padding: 12px 28px;
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ─────────────────────────────────
+       REVEAL
+    ───────────────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.75s ease,
+          transform 0.75s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-24px);
+        transition:
+          opacity 0.75s ease,
+          transform 0.75s ease;
+      }
+      .reveal-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(24px);
+        transition:
+          opacity 0.75s ease,
+          transform 0.75s ease;
+      }
+      .reveal-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* ─────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────── */
+      @media (max-width: 900px) {
+        .intro {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+        .intro-photo {
+          height: 360px;
+        }
+        .intro-photo::after {
+          background: linear-gradient(to bottom, transparent 70%, var(--ivory));
+        }
+        .couple-grid {
+          grid-template-columns: 1fr;
+        }
+        .couple-card:first-child {
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 1px solid rgba(122, 158, 126, 0.2);
+          padding-bottom: 48px;
+          margin-bottom: 48px;
+        }
+        .couple-card:last-child {
+          padding-left: 0;
+          padding-top: 0;
+        }
+        .event-timeline {
+          grid-template-columns: 1fr;
+        }
+        .event-divider {
+          display: none;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto;
+        }
+        .gal-item {
+          grid-column: auto !important;
+          grid-row: auto !important;
+          height: 200px;
+        }
+        .gift-grid,
+        .lokasi-grid,
+        .digital-grid {
+          grid-template-columns: 1fr;
+        }
+        .vip-cards {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-burger {
+          display: flex;
+        }
+        section,
+        .couple,
+        .event,
+        .gift,
+        .digital,
+        .lokasi,
+        .gallery,
+        .countdown,
+        .rsvp {
+          padding: 80px 6vw;
+        }
+        .guest-banner {
+          flex-direction: column;
+          gap: 16px;
+          align-items: flex-start;
+          padding: 24px 6vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress"></div>
+
+    <!-- ══════ COVER ══════ -->
+    <div id="cover">
+      <div class="cover-bg"></div>
+      <div class="cover-lines"></div>
+      <div class="cover-corner tl"></div>
+      <div class="cover-corner tr"></div>
+      <div class="cover-corner bl"></div>
+      <div class="cover-corner br"></div>
+
+      <div class="cover-body">
+        <p class="cover-eyebrow">The Wedding of</p>
+        <div
+          id="cover-guest-text"
+          style="
+            font-family: &quot;DM Sans&quot;, sans-serif;
+            font-size: 13px;
+            font-style: italic;
+            color: rgba(212, 201, 168, 0.8);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            min-height: 20px;
+          "
+        ></div>
+        <span class="cover-script">
+          Agam
+          <span class="and-sign">&amp;</span>
+          Aura
+        </span>
+        <div class="cover-subtitle">
+          <i></i>
+          <span>19 April 2026 · Bandung</span>
+          <i></i>
+        </div>
+        <div class="cover-divider-h"></div>
+        <button class="btn-open" onclick="openInvitation()">
+          <span>Buka Undangan</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            style="transition: transform 0.3s"
+          >
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Music -->
+    <audio id="bg-music" loop preload="auto" src="music/banda.mp3"></audio>
+    <button id="music-btn" onclick="toggleMusic()">
+      <span class="music-disc">♪</span>
+      <span class="music-lbl">Sampai Jadi Debu</span>
+    </button>
+    <div id="toast"></div>
+
+    <!-- ══════ NAVBAR ══════ -->
+    <nav id="navbar">
+      <a class="nav-logo" href="#section-intro">Agam &amp; Aura</a>
+      <div class="nav-vip" id="nav-vip">⭑ VIP</div>
+      <ul class="nav-links">
+        <li><a href="#section-intro" class="nav-link">Sambutan</a></li>
+        <li><a href="#section-couple" class="nav-link">Mempelai</a></li>
+        <li><a href="#section-acara" class="nav-link">Acara</a></li>
+        <li><a href="#section-gallery" class="nav-link">Galeri</a></li>
+        <li><a href="#section-hitung" class="nav-link">Hitung Mundur</a></li>
+        <li><a href="#section-lokasi" class="nav-link">Lokasi</a></li>
+        <li><a href="#section-gift" class="nav-link">Hadiah</a></li>
+        <li><a href="#section-rsvp" class="nav-link nav-rsvp-link">RSVP</a></li>
+      </ul>
+      <button class="nav-burger" id="burger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="#section-intro" onclick="closeMobile()">Sambutan</a>
+      <a href="#section-couple" onclick="closeMobile()">Mempelai</a>
+      <a href="#section-acara" onclick="closeMobile()">Acara</a>
+      <a href="#section-gallery" onclick="closeMobile()">Galeri</a>
+      <a href="#section-hitung" onclick="closeMobile()">Hitung Mundur</a>
+      <a href="#section-lokasi" onclick="closeMobile()">Lokasi</a>
+      <a href="#section-gift" onclick="closeMobile()">Hadiah</a>
+      <a href="#section-rsvp" onclick="closeMobile()">RSVP</a>
+    </div>
+
+    <!-- ══════ MAIN CONTENT ══════ -->
+    <div id="main-content">
+      <!-- Guest Banner -->
+      <div class="guest-banner" id="guest-banner">
+        <div class="guest-banner-left">
+          <span class="guest-banner-label">Kepada Yth.</span>
+          <span class="guest-banner-name" id="banner-name">Tamu Undangan</span>
+          <span class="guest-banner-tag" id="banner-tag">Tamu Umum</span>
+        </div>
+        <div class="guest-seats" id="banner-seats">
+          <div class="guest-seats-num" id="banner-seats-num">2</div>
+          <div class="guest-seats-label">Kursi Reserved</div>
+          <div class="guest-seats-sub">VIP Table</div>
+        </div>
+      </div>
+
+      <!-- VIP Section -->
+      <div class="vip-section" id="vip-section">
+        <div class="sec-label" style="color: var(--sage); margin-bottom: 48px">
+          <span
+            style="
+              width: 28px;
+              height: 1px;
+              background: var(--sage);
+              display: block;
+            "
+          ></span>
+          Keistimewaan Tamu VIP
+        </div>
+        <div class="vip-cards">
+          <div class="vip-card">
+            <div class="vip-card-icon">🪑</div>
+            <div class="vip-card-title">Reserved Seating</div>
+            <div class="vip-card-desc">
+              Kursi khusus VIP di barisan terdepan telah disiapkan untuk Anda.
+            </div>
+          </div>
+          <div class="vip-card">
+            <div class="vip-card-icon">🥂</div>
+            <div class="vip-card-title">Welcome Drink</div>
+            <div class="vip-card-desc">
+              Sambutan minuman spesial di meja penerimaan tamu VIP.
+            </div>
+          </div>
+          <div class="vip-card">
+            <div class="vip-card-icon">🎁</div>
+            <div class="vip-card-title">Exclusive Souvenir</div>
+            <div class="vip-card-desc">
+              Souvenir eksklusif edisi terbatas hanya untuk tamu VIP.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTRO -->
+      <section class="intro" id="section-intro">
+        <div class="intro-photo reveal-left">
+          <img src="https://picsum.photos/seed/botanical1/700/900" alt="" />
+        </div>
+        <div class="intro-content reveal-right">
+          <div class="sec-label">Bismillahirrahmanirrahim</div>
+          <h2>Dengan penuh rasa <em>syukur</em> &amp; kebahagiaan</h2>
+          <p>
+            Kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dan
+            memberikan doa restu dalam acara pernikahan kami. Kehadiran Anda
+            adalah kebahagiaan yang tak ternilai bagi kami dan seluruh keluarga.
+          </p>
+        </div>
+      </section>
+
+      <!-- COUPLE -->
+      <section class="couple" id="section-couple">
+        <div class="couple-heading reveal">Agam &amp; Aura</div>
+        <div class="couple-grid">
+          <div class="couple-card reveal-left">
+            <div class="couple-photo-wrap">
+              <img src="img/agam.jpeg" alt="Agam" />
+            </div>
+            <div class="couple-role">Mempelai Pria</div>
+            <div class="couple-name">Agam Fajar Pratama</div>
+            <div class="couple-parents">
+              Putra pertama dari<br />Bpk. Punidi &amp; Ibu Purwati
+            </div>
+          </div>
+          <div class="couple-card reveal-right">
+            <div class="couple-photo-wrap">
+              <img src="img/aura2.jpeg" alt="Aura" />
+            </div>
+            <div class="couple-role">Mempelai Wanita</div>
+            <div class="couple-name">Siti Auranita Widya Prasanti</div>
+            <div class="couple-parents">
+              Putri pertama dari<br />Bpk. Darmawan &amp; Ibu Sari
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACARA -->
+      <section class="event" id="section-acara">
+        <div class="sec-label reveal">Rangkaian Acara</div>
+        <div class="event-timeline">
+          <div class="event-card reveal-left">
+            <div class="event-card-tag">Akad Nikah</div>
+            <div class="event-card-title">Ijab Kabul</div>
+            <div class="event-card-detail">
+              <span class="event-card-icon">◈</span
+              ><span>Minggu, 19 April 2026<br />08.00 – 10.00 WIB</span>
+            </div>
+            <div class="event-card-detail">
+              <span class="event-card-icon">◈</span
+              ><span>Masjid Agung Bandung<br />Jl. Dalem Kaum, Bandung</span>
+            </div>
+          </div>
+          <div class="event-divider reveal">
+            <div class="event-divider-line"></div>
+            <div class="event-divider-dot"></div>
+            <div class="event-divider-line"></div>
+          </div>
+          <div class="event-card reveal-right">
+            <div class="event-card-tag">Resepsi</div>
+            <div class="event-card-title">Wedding Party</div>
+            <div class="event-card-detail">
+              <span class="event-card-icon">◈</span
+              ><span>Minggu, 19 April 2026<br />11.00 – 14.00 WIB</span>
+            </div>
+            <div class="event-card-detail">
+              <span class="event-card-icon">◈</span
+              ><span
+                >Grand Ballroom Sudirman<br />Jl. Sudirman No. 1, Bandung</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="gallery" id="section-gallery">
+        <div class="sec-label reveal">Our Story</div>
+        <div class="gallery-grid reveal">
+          <div class="gal-item">
+            <img src="https://picsum.photos/seed/couple1/600/400" alt="" />
+          </div>
+          <div class="gal-item">
+            <img src="https://picsum.photos/seed/couple5/400/600" alt="" />
+          </div>
+          <div class="gal-item">
+            <img src="https://picsum.photos/seed/couple3/400/300" alt="" />
+          </div>
+          <div class="gal-item">
+            <img src="https://picsum.photos/seed/couple6/400/300" alt="" />
+          </div>
+          <div class="gal-item">
+            <img src="https://picsum.photos/seed/couple4/400/300" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <!-- COUNTDOWN -->
+      <section class="countdown" id="section-hitung">
+        <div class="countdown-inner reveal">
+          <h2>Menghitung Hari</h2>
+          <p class="countdown-sub">Menuju Hari Bahagia Kami</p>
+          <div class="countdown-row">
+            <div class="count-block">
+              <span class="count-num" id="days">00</span
+              ><span class="count-lbl">Hari</span>
+            </div>
+            <div class="count-block">
+              <span class="count-num" id="hours">00</span
+              ><span class="count-lbl">Jam</span>
+            </div>
+            <div class="count-block">
+              <span class="count-num" id="minutes">00</span
+              ><span class="count-lbl">Menit</span>
+            </div>
+            <div class="count-block">
+              <span class="count-num" id="seconds">00</span
+              ><span class="count-lbl">Detik</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOKASI -->
+      <section class="lokasi" id="section-lokasi">
+        <div class="sec-label reveal">Tempat &amp; Tanggal</div>
+        <div class="lokasi-grid">
+          <div class="lokasi-card reveal">
+            <div class="lokasi-tag">Akad Nikah</div>
+            <div class="lokasi-name">Masjid Agung Bandung</div>
+            <div class="lokasi-time">Minggu, 19 April 2026 · 08.00 WIB</div>
+            <div class="lokasi-addr">
+              Jl. Dalem Kaum No. 14<br />Regol, Bandung · Jawa Barat 40251
+            </div>
+            <a
+              class="btn-map"
+              href="https://www.google.com/maps/place/Masjid+Agung+Bandung/"
+              target="_blank"
+              >↗ Google Maps</a
+            >
+          </div>
+          <div class="lokasi-card reveal">
+            <div class="lokasi-tag">Resepsi Pernikahan</div>
+            <div class="lokasi-name">Grand Ballroom Sudirman</div>
+            <div class="lokasi-time">Minggu, 19 April 2026 · 11.00 WIB</div>
+            <div class="lokasi-addr">
+              Jl. Jend. Sudirman No.620<br />Dungus Cariang, Andir · Jawa Barat
+              40183
+            </div>
+            <a
+              class="btn-map"
+              href="https://www.google.com/maps/place/Sudirman+Grand+Ballroom/"
+              target="_blank"
+              >↗ Google Maps</a
+            >
+          </div>
+        </div>
+        <div class="map-wrap reveal">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7787275614965!2d107.57715167507847!3d-6.917036993082552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e608cfa0c18d%3A0xbe7da28b948823b!2sSudirman%20Grand%20Ballroom!5e0!3m2!1sid!2sid!4v1776139790348!5m2!1sid!2sid"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </section>
+
+      <!-- GIFT / REKENING -->
+      <section class="gift" id="section-gift">
+        <div class="sec-label reveal">Amplop &amp; Hadiah</div>
+        <p class="gift-note reveal">
+          Doa restu Anda adalah hadiah terbesar bagi kami. Namun jika berkenan
+          memberikan tanda kasih, berikut informasi yang dapat digunakan.
+        </p>
+        <div class="gift-grid">
+          <div class="rek-card reveal">
+            <div class="rek-label">Transfer Bank</div>
+            <div class="rek-bank">BCA</div>
+            <div class="rek-holder">a.n. Agam Fajar Pratama</div>
+            <div class="rek-number-row">
+              <span class="rek-number" id="rek-bca">1234567890</span>
+              <button class="btn-copy" onclick="copyRek('rek-bca', this)">
+                Salin
+              </button>
+            </div>
+            <div class="rek-label" style="margin-top: 24px">Transfer Bank</div>
+            <div class="rek-bank">Mandiri</div>
+            <div class="rek-holder">a.n. Siti Auranita W.P.</div>
+            <div class="rek-number-row" style="margin-top: 8px">
+              <span class="rek-number" id="rek-mandiri">0987654321</span>
+              <button class="btn-copy" onclick="copyRek('rek-mandiri', this)">
+                Salin
+              </button>
+            </div>
+          </div>
+          <div class="qris-card reveal">
+            <div class="qris-label">QRIS / Scan to Pay</div>
+            <div class="qris-title">Scan &amp; Transfer</div>
+            <div class="qris-sub">
+              Mendukung semua e-wallet &amp; mobile banking
+            </div>
+            <div class="qris-box">
+              <div class="qris-placeholder"></div>
+            </div>
+            <p class="qris-hint">
+              Ganti dengan gambar QRIS Anda<br /><code
+                style="font-size: 10px; color: var(--sage)"
+                >img/qris.png</code
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- DIGITAL GIFT -->
+      <section class="digital" id="section-digital">
+        <div class="sec-label reveal">Digital Gift</div>
+        <p class="digital-note reveal">
+          Ingin memberikan hadiah yang berkesan? Anda dapat mengirimkan hadiah
+          digital langsung kepada kami melalui platform berikut.
+        </p>
+        <div class="digital-grid reveal">
+          <a
+            class="dg-item"
+            href="https://tokopedia.com/wishlist"
+            target="_blank"
+          >
+            <span class="dg-icon">🛍️</span>
+            <span class="dg-name">Tokopedia Wishlist</span>
+            <span class="dg-desc"
+              >Lihat dan beli dari daftar keinginan kami langsung di
+              Tokopedia.</span
+            >
+            <span class="dg-link">Kunjungi →</span>
+          </a>
+          <a class="dg-item" href="https://shopee.co.id" target="_blank">
+            <span class="dg-icon">🏡</span>
+            <span class="dg-name">Shopee Wishlist</span>
+            <span class="dg-desc"
+              >Daftar hadiah rumah tangga pilihan kami tersedia di Shopee.</span
+            >
+            <span class="dg-link">Kunjungi →</span>
+          </a>
+          <a
+            class="dg-item"
+            href="https://wa.me/6281234567890?text=Halo%2C+saya+ingin+memberikan+hadiah+untuk+Agam+%26+Aura"
+            target="_blank"
+          >
+            <span class="dg-icon">💬</span>
+            <span class="dg-name">Hubungi Langsung</span>
+            <span class="dg-desc"
+              >Chat langsung via WhatsApp untuk koordinasi hadiah spesial.</span
+            >
+            <span class="dg-link">Chat →</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- RSVP -->
+      <section class="rsvp" id="section-rsvp">
+        <div class="rsvp-inner reveal">
+          <div class="sec-label" style="justify-content: center">
+            Konfirmasi Kehadiran
+          </div>
+          <h2>RSVP</h2>
+          <p class="rsvp-sub">
+            Mohon konfirmasi kehadiran Anda paling lambat<br />7 hari sebelum
+            acara berlangsung.
+          </p>
+          <form class="rsvp-form" onsubmit="handleRSVP(event)">
+            <div class="form-row">
+              <label>Nama Lengkap</label
+              ><input
+                type="text"
+                id="rsvp-nama"
+                placeholder="Masukkan nama Anda"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label>Nomor HP / WhatsApp</label
+              ><input type="tel" placeholder="+62" />
+            </div>
+            <div class="form-row">
+              <label>Kehadiran</label>
+              <select required>
+                <option value="" disabled selected>— Pilih —</option>
+                <option>Hadir</option>
+                <option>Tidak Dapat Hadir</option>
+                <option>Masih Belum Pasti</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>Jumlah Tamu</label
+              ><input type="number" min="1" max="5" placeholder="1" />
+            </div>
+            <button type="submit" class="btn-rsvp">Kirim Konfirmasi</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-script">Agam &amp; Aura</div>
+        <div class="footer-date">19 · 04 · 2026 · Bandung</div>
+        <div class="footer-line"></div>
+        <p class="footer-quote">
+          "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu
+          istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa
+          tenteram kepadanya."<br /><br />— QS. Ar-Rum: 21
+        </p>
+        <div class="footer-copy">Made with love · 2026</div>
+      </footer>
+    </div>
+    <!-- /#main-content -->
+
+    <script>
+      /* ── URL PARAMS ── */
+      const params = new URLSearchParams(window.location.search);
+      const guestName = params.get("to") || "";
+      const guestType = (params.get("type") || "").toLowerCase();
+      const guestSeats = parseInt(params.get("seats")) || 2;
+      const isVIP = guestType === "vip";
+
+      if (guestName) {
+        document.getElementById("cover-guest-text").innerHTML =
+          `Kepada Yth. <em style="color:var(--parch)">${decodeURIComponent(guestName)}</em>`;
+      }
+
+      /* ── OPEN INVITATION ── */
+      document.body.style.overflow = "hidden";
+
+      function openInvitation() {
+        const cover = document.getElementById("cover");
+        const main = document.getElementById("main-content");
+        const nav = document.getElementById("navbar");
+
+        cover.classList.add("hiding");
+        setTimeout(() => {
+          cover.classList.add("hidden");
+          document.body.style.overflow = "";
+          main.classList.add("visible");
+          nav.classList.add("visible");
+          window.scrollTo({ top: 0 });
+
+          // Guest banner
+          if (guestName)
+            document.getElementById("banner-name").textContent =
+              decodeURIComponent(guestName);
+          if (isVIP) {
+            const tag = document.getElementById("banner-tag");
+            tag.textContent = "⭑ Tamu VIP";
+            tag.style.color = "var(--copper)";
+            tag.style.borderColor = "rgba(184,115,51,0.4)";
+            document.getElementById("banner-seats").classList.add("show");
+            document.getElementById("banner-seats-num").textContent =
+              guestSeats;
+            document.getElementById("vip-section").classList.add("show");
+            document.getElementById("nav-vip").classList.add("show");
+          }
+          if (guestName)
+            document.getElementById("rsvp-nama").value =
+              decodeURIComponent(guestName);
+        }, 1000);
+
+        // Music
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0;
+        audio.play().catch(() => {});
+        let v = 0;
+        const fi = setInterval(() => {
+          v = Math.min(v + 0.02, 0.5);
+          audio.volume = v;
+          if (v >= 0.5) clearInterval(fi);
+        }, 80);
+        setTimeout(
+          () => document.getElementById("music-btn").classList.add("show"),
+          1400,
+        );
+      }
+
+      /* ── MUSIC ── */
+      function toggleMusic() {
+        const a = document.getElementById("bg-music");
+        const b = document.getElementById("music-btn");
+        if (a.paused) {
+          a.play();
+          b.classList.remove("paused");
+        } else {
+          a.pause();
+          b.classList.add("paused");
+        }
+      }
+      document.addEventListener("visibilitychange", () => {
+        const a = document.getElementById("bg-music");
+        if (!a) return;
+        if (document.hidden) {
+          let v = a.volume;
+          const fo = setInterval(() => {
+            v = Math.max(v - 0.05, 0);
+            a.volume = v;
+            if (v <= 0) {
+              a.pause();
+              clearInterval(fo);
+            }
+          }, 50);
+        } else {
+          a.play().catch(() => {});
+          let v = 0;
+          a.volume = 0;
+          const fi = setInterval(() => {
+            v = Math.min(v + 0.05, 0.5);
+            a.volume = v;
+            if (v >= 0.5) clearInterval(fi);
+          }, 50);
+        }
+      });
+
+      /* ── COPY REKENING ── */
+      function copyRek(id, btn) {
+        navigator.clipboard
+          .writeText(document.getElementById(id).textContent.trim())
+          .then(() => {
+            btn.textContent = "✓ Disalin";
+            btn.classList.add("copied");
+            showToast("Nomor rekening disalin!");
+            setTimeout(() => {
+              btn.textContent = "Salin";
+              btn.classList.remove("copied");
+            }, 2500);
+          });
+      }
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2500);
+      }
+
+      /* ── NAVBAR ── */
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("navbar");
+        nav.classList.toggle("scrolled", window.scrollY > 10);
+        let cur = "";
+        document.querySelectorAll("section[id]").forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+        });
+        document.querySelectorAll(".nav-link").forEach((a) => {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + cur);
+        });
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById("progress").style.width =
+          (window.scrollY / h) * 100 + "%";
+      });
+
+      function toggleMobile() {
+        document.getElementById("nav-mobile").classList.toggle("open");
+        document.getElementById("burger").classList.toggle("open");
+      }
+      function closeMobile() {
+        document.getElementById("nav-mobile").classList.remove("open");
+        document.getElementById("burger").classList.remove("open");
+      }
+
+      /* ── COUNTDOWN ── */
+      const wedding = new Date("2026-04-19T08:00:00");
+      function tick() {
+        const diff = wedding - new Date();
+        const pad = (n) => String(Math.max(0, n)).padStart(2, "0");
+        document.getElementById("days").textContent = pad(
+          Math.floor(diff / 86400000),
+        );
+        document.getElementById("hours").textContent = pad(
+          Math.floor((diff % 86400000) / 3600000),
+        );
+        document.getElementById("minutes").textContent = pad(
+          Math.floor((diff % 3600000) / 60000),
+        );
+        document.getElementById("seconds").textContent = pad(
+          Math.floor((diff % 60000) / 1000),
+        );
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      /* ── RSVP ── */
+      function handleRSVP(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector(".btn-rsvp");
+        btn.textContent = "Terima Kasih ✓";
+        btn.style.background = "var(--fern)";
+        btn.disabled = true;
+        showToast("RSVP berhasil dikirim!");
+      }
+
+      /* ── SCROLL REVEAL ── */
+      const ro = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((el) => {
+            if (el.isIntersecting) {
+              el.target.classList.add("visible");
+              ro.unobserve(el.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".reveal, .reveal-left, .reveal-right")
+        .forEach((el) => ro.observe(el));
+
+      /* ── GALLERY TILT ── */
+      document.querySelectorAll(".gal-item img").forEach((img) => {
+        img.addEventListener("mousemove", (e) => {
+          const r = img.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width,
+            y = (e.clientY - r.top) / r.height;
+          img.style.transform = `scale(1.08) translate(${(x - 0.5) * 8}px,${(y - 0.5) * 8}px)`;
+        });
+        img.addEventListener("mouseleave", () => {
+          img.style.transform = "scale(1)";
+        });
+      });
+
+      /* ── RIPPLE ── */
+      document.querySelectorAll("button").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          const c = document.createElement("span"),
+            d = Math.max(this.clientWidth, this.clientHeight);
+          Object.assign(c.style, {
+            width: d + "px",
+            height: d + "px",
+            position: "absolute",
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.2)",
+            left: e.offsetX - d / 2 + "px",
+            top: e.offsetY - d / 2 + "px",
+            pointerEvents: "none",
+            animation: "rpl 0.6s linear",
+          });
+          this.appendChild(c);
+          setTimeout(() => c.remove(), 600);
+        });
+      });
+      const rs = document.createElement("style");
+      rs.innerHTML =
+        "@keyframes rpl{from{transform:scale(0);opacity:.5}to{transform:scale(2.5);opacity:0}}";
+      document.head.appendChild(rs);
+    </script>
+  </body>
+</html>
